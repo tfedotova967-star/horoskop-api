@@ -1,0 +1,2231 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8" />
+  <title>TEST-XYZ-123</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+:root{
+  --bg:#0b0f19;
+  --card:#121a2a;
+  --text:#e8eefc;
+  --muted:#a9b6d6;
+  --line:rgba(255,255,255,.10);
+  --radius:18px;
+}
+
+body{
+  margin:0;
+  padding:18px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:#3f5588;
+  color:#f2f6ff;
+}
+
+.container{
+  max-width:1100px;
+  margin:0 auto;
+  padding:18px;
+}
+
+.hero{ padding:14px 6px 6px; }
+.hero h1{ margin:0; font-size:28px; }
+.hero p{ margin:6px 0 0; color:var(--muted); }
+
+.card{
+  background: rgba(40,60,100,0.85);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  padding:16px;
+  margin:16px 0;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.05);
+} 
+
+section{ margin-bottom: 18px; }
+
+.grid2{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:14px;
+}
+@media (max-width: 900px){
+  .grid2{ grid-template-columns: 1fr; }
+}
+
+h2{ margin:0 0 10px; font-size:18px; }
+table{ width:100%; border-collapse:collapse; }
+th, td{ padding:10px; border-bottom:1px solid var(--line); text-align:left; }
+th{ color:var(--muted); font-weight:600; }
+
+input, select, button{
+  background:#3b5385;
+  color:white;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:12px;
+  padding:10px;
+  outline:none;
+}
+
+button{ cursor:pointer; }
+
+label{ font-size:12px; color:var(--muted); display:block; margin-top:10px; }
+
+.formGrid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:10px;
+}
+@media (max-width: 900px){
+  .formGrid{ grid-template-columns: 1fr 1fr; }
+}
+
+details{
+  margin:8px 0;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:8px 10px;
+  background: rgba(40,60,100,0.85);
+}
+summary{ cursor:pointer; color:var(--text); }
+
+.si-chart{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(90px, 1fr));
+  gap: 6px;
+  max-width: 520px;
+}
+
+.si-cell{
+  border: 1px solid var(--line);
+  min-height: 80px;
+  padding: 6px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: rgba(255,255,255,.03);
+}
+
+.si-sign{ font-size: 12px; opacity: 0.8; margin-bottom: 4px; color: var(--muted); }
+.si-empty{ border: none; background: transparent; }
+.si-pl{ font-weight: 600; font-size: 14px; }
+
+.retro {
+  color: #a66;        /* jemná tlmená červená */
+  font-size: 0.75em;  /* menšie */
+  opacity: 0.85;
+  margin-left: 2px;
+}
+
+.retro {
+  color: #a66;        /* jemná tlmená červená */
+  font-size: 0.75em;  /* menšie */
+  opacity: 0.85;
+  margin-left: 2px;
+}
+
+@media print {
+  body { background: #fff !important; color:#000 !important; padding:0 !important; }
+  .container { max-width: 100% !important; padding: 0 !important; }
+
+  .formGrid, #btn, #pdfBtn { display:none !important; }
+
+  .card {
+    box-shadow:none !important;
+    background:#fff !important;
+    border:1px solid #ddd !important;
+  }
+
+    /* nech sa tlačia farby a čiary */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* mriežka máp v PDF */
+  .si-cell{
+    border: 1px solid #000 !important;
+    background: #fff !important;
+  }
+
+  .si-empty{
+    border: none !important;
+    background: transparent !important;
+  }
+
+    /* ⬇️ PREPÍŠ VŠETKY INPUTY V TLAČI */
+  input, textarea, select {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+    -webkit-text-fill-color: #000 !important; /* Safari / Chrome */
+  }
+
+    /* ⬇️ ČITATEĽNOSŤ TEXTOV V PDF (ASCENDENT, VÝKLADY) */
+  #interpretation p {
+    max-width: 65ch;        /* ideálna dĺžka riadku na čítanie */
+    line-height: 1.5;
+    margin-bottom: 0.6em;
+    white-space: normal;   /* istota zalamovania */
+    word-break: normal;
+  }
+
+  .si-sign{ color:#000 !important; }
+  .si-pl{ color:#000 !important; }
+
+  table { border:1px solid #ddd !important; }
+  th { background:#f3f3f3 !important; color:#000 !important; }
+  td, th { border-bottom:1px solid #ddd !important; }
+
+    /* Antardaša – summary v PDF */
+  details summary {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+    padding: 6px 10px !important;
+    list-style: none !important;
+  }
+
+  /* odstráni čierny trojuholník / marker */
+  details summary::-webkit-details-marker {
+    display: none !important;
+  }
+
+    /* Antardaša (details) – celé rozbalené okno v PDF */
+  details {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+  }
+
+  details summary {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+  }
+
+  /* tabuľka vo vnútri antardaše */
+  details table,
+  details th,
+  details td {
+    background: #fff !important;
+    color: #000 !important;
+    border-color: #000 !important;
+  }
+
+  /* odstráni prípadné tmavé pásy z tvojich globálnych štýlov */
+  details tr {
+    background: #fff !important;
+  }
+
+        details { display: block !important; }
+    details > * { display: block !important; }
+
+    /* =========================
+       PDF: nezalamovať tabuľky / karty / mapy cez strany
+       ========================= */
+    .card, .box, .si-chart, table, tr, td, th, details, summary,
+    #out, #outD1, #outD9, #interpretation {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    /* hlavička tabuľky nech sa opakuje na ďalšej strane */
+    thead { display: table-header-group !important; }
+    tfoot { display: table-footer-group !important; }
+
+    /* nadpisy nech neostanú osamotené na konci strany */
+    h2, h3, h4 {
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+    }
+
+    /* Nadpis mapy nech neostane sám na konci strany */
+    .card.chartBlock h2{
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+      margin-bottom: 6mm !important;
+    }
+
+    /* D1/D9 karta: drž nadpis + mapu spolu a pridaj väčší odstup */
+  .card.chartBlock{
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 22mm !important;
+  }
+  /* PRI TLAČI ZRUŠ GRID – inak sa lámu nadpisy a mapy */
+  .grid2{
+    display: block !important;
+}
+
+}  /* koniec @media print */
+
+   /* === SOUTH INDIAN MAPA (D1/D9) === */
+   .si-chart{
+     display:grid;
+     grid-template-columns: repeat(4, 1fr);
+     gap: 6px;
+     margin: 10px 0 18px;
+   }
+
+   .si-cell{
+     min-height: 90px;
+     border: 1px solid rgba(255,255,255,.18);
+     border-radius: 12px;
+     padding: 8px;
+     background: rgba(255,255,255,.04);
+   }
+
+   .si-empty{
+     border: none;
+     background: transparent;
+   }
+
+   .si-asc{
+     outline: 2px solid rgba(255,255,255,.65);
+   }
+
+   .si-pl div{
+     line-height: 1.15;
+     font-size: 14px;
+   }
+
+   .si-cell .si-pl{
+     margin-top: 2px;
+   }
+
+</style>
+
+#ascText {
+  font-size: 15px;
+}
+
+#ascText p {
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.logo{
+  width:160px;
+  display:block;
+  margin:0 auto 20px auto;
+}
+
+</style>
+
+</head>
+<body>
+<div class="container">
+
+<header class="hero">
+
+
+  <h1>Horoskop podľa džjotiš</h1>
+  <p>D1 · D9 · nakšatry · daše</p>
+
+</header>
+
+<div class="box">
+  <label>Rok</label>
+  <input id="year" type="number" value="2001">
+
+  <label>Mesiac</label>
+  <input id="month" type="number" value="1">
+
+  <label>Deň</label>
+  <input id="day" type="number" value="5">
+
+  <label>Hodina</label>
+  <input id="hour" type="number" value="17">
+
+  <label>Minúta</label>
+  <input id="minute" type="number" value="35">
+
+  <label>Miesto narodenia</label>
+  <input id="place" type="text" placeholder="Bratislava, Slovakia">
+  <button type="button" id="findPlaceBtn">Nájsť miesto</button>
+
+  <label>Zemepisná šírka (lat)</label>
+  <input id="lat" type="number" step="0.0001" value="48.1486">
+
+  <label>Zemepisná dĺžka (lon)</label>
+  <input id="lon" type="number" step="0.0001" value="17.1077">
+
+  <label style="display:flex; gap:.5rem; align-items:center; margin-top:8px;">
+  <input type="checkbox" id="tzAuto" checked>
+  Časové pásmo automaticky (podľa miesta)
+  </label>
+
+  <label>Časové pásmo (IANA)</label>
+  <input id="tz" type="text" value="Europe/Bratislava" placeholder="Europe/Bratislava">
+  <small>Príklad: Europe/Bratislava, Europe/Moscow, America/New_York</small>
+
+  <br>
+  <button id="btn">Vypočítať</button>
+  <button id="pdfBtn" type="button">Export PDF</button>
+</div>
+
+<!-- VÝSLEDKY -->
+<div id="results">
+
+  <div class="grid2">
+    <div class="card chartBlock">
+      <h2>D1 (Rāši)</h2>
+      <div id="chartD1"></div>
+    </div>
+
+    <div class="card chartBlock">
+      <h2>D9 (Navāmša)</h2>
+      <div id="chartD9"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Planéty</h2>
+    <div id="planetsTable"></div>
+  </div>
+
+  <div class="card">
+    <h2>Ascendent</h2>
+    <div id="ascText" class="box"></div>
+  </div>
+
+  <div class="card">
+    <h2>Vládca Ascendentu (Lagneš)</h2>
+    <div id="lagnesText" class="box"></div>
+  </div>
+
+  <div class="card">
+    <h2>Mesiac</h2>
+    <div id="moonText" class="box"></div>
+  </div>
+
+  <div class="card">
+    <h2>Slnko</h2>
+    <div id="sunText" class="box"></div>
+  </div>
+
+  <div class="card">
+  <h2>Jupiter</h2>
+  <div id="jupiterText" class="box"></div>
+</div>
+
+  <div class="card">
+  <h2>Saturn</h2>
+  <div id="saturnText" class="box"></div>
+</div>
+
+<div class="card">
+  <h2>Rahu</h2>
+  <div id="rahuText" class="box"></div>
+</div>
+
+<div class="card">
+  <h2>Ketu</h2>
+  <div id="ketuText" class="box"></div>
+</div>
+
+<div class="card">
+  <h2>Karmická os Rahu–Ketu</h2>
+  <div id="karmaAxisText" class="box"></div>
+</div>
+
+  <div class="card">
+    <h2>Daše</h2>
+    <div id="dashas"></div>
+    <div id="interpretation" class="box"></div>
+  </div>
+
+</div>
+
+<script>
+
+const SIGNS = ["Baran","Býk","Blíženci","Rak","Lev","Panna","Váhy","Škorpión","Strelec","Kozorožec","Vodnár","Ryby"]; 
+
+const SIGN_LORDS = {
+  "Baran": "Mars",
+  "Býk": "Venuša",
+  "Blíženci": "Merkúr",
+  "Rak": "Mesiac",
+  "Lev": "Slnko",
+  "Panna": "Merkúr",
+  "Váhy": "Venuša",
+  "Škorpión": "Mars",
+  "Strelec": "Jupiter",
+  "Kozorožec": "Saturn",
+  "Vodnár": "Saturn",
+  "Ryby": "Jupiter"
+};
+
+const LAGNES_SIGN_PROFILE = {
+  "Baran": "Lagneš v Baranovi dáva priamy, aktívny a odvážny spôsob sebapresadenia. Človek ide životom cez čin, iniciatívu a potrebu konať bez zbytočného odkladu.",
+  "Býk": "Lagneš v Býkovi vedie k stabilnému, trpezlivému a praktickému prejavu osobnosti. Životná sila sa rozvíja cez istotu, hodnoty a schopnosť budovať pevné základy.",
+  "Blíženci": "Lagneš v Blížencoch prináša pohyblivú myseľ, zvedavosť a silu komunikácie. Človek rastie cez učenie, výmenu myšlienok a kontakt s okolím.",
+  "Rak": "Lagneš v Rakovi robí osobnosť citlivou, vnímavou a ochraňujúcou. Životná energia sa spája s emóciami, rodinou, vnútorným bezpečím a potrebou patriť.",
+  "Lev": "Lagneš v Levovi dáva hrdosť, tvorivú silu a prirodzenú potrebu žiariť. Človek sa rozvíja cez sebavyjadrenie, dôstojnosť a odvahu byť videný.",
+  "Panna": "Lagneš v Panne vedie k presnosti, pozorovaniu detailov a potrebe poriadku. Osobnosť sa formuje cez rozlišovanie, službu, zlepšovanie a praktické myslenie.",
+  "Váhy": "Lagneš vo Váhach dáva potrebu rovnováhy, estetiky a správnych vzťahov. Človek rastie cez spoluprácu, diplomaciu a hľadanie harmónie.",
+  "Škorpión": "Lagneš v Škorpiónovi prináša intenzitu, vnútornú silu a schopnosť premeny. Životná cesta vedie cez hlboké skúsenosti, psychickú odolnosť a transformáciu.",
+  "Strelec": "Lagneš v Strelcovi dáva zmysel pre pravdu, smerovanie a vyšší význam života. Človek sa rozvíja cez poznanie, vieru, filozofiu a široký pohľad.",
+  "Kozorožec": "Lagneš v Kozorožcovi vedie k zodpovednosti, vytrvalosti a schopnosti niesť bremeno života. Osobnosť dozrieva cez disciplínu, čas a dlhodobé úsilie.",
+  "Vodnár": "Lagneš vo Vodnárovi dáva nezávislé myslenie, odstup a orientáciu na širšie súvislosti. Človek sa rozvíja cez idey, spoločnosť a netradičný pohľad na svet.",
+  "Ryby": "Lagneš v Rybách prináša citlivosť, intuíciu a schopnosť vnímať jemné vrstvy reality. Životná energia smeruje k súcitu, predstavivosti a vnútornému hľadaniu."
+};
+
+const LAGNES_HOUSE_PROFILE = {
+  1: "Lagneš v 1. dome zosilňuje osobnosť, sebavedomie a schopnosť ísť vlastnou cestou. Život človeka je úzko prepojený s jeho identitou, telom a osobnou vôľou.",
+  2: "Lagneš v 2. dome smeruje životnú energiu k hodnote, istote a budovaniu zázemia. Dôležitú rolu zohráva rodina, majetok, reč a schopnosť vytvárať stabilitu.",
+  3: "Lagneš v 3. dome dáva odvahu konať, skúšať a presadzovať sa vlastnou silou. Život sa rozvíja cez iniciatívu, komunikáciu, učenie a praktickú aktivitu.",
+  4: "Lagneš v 4. dome obracia životnú energiu k domovu, koreňom a vnútornému pokoju. Dôležité je citové bezpečie, rodina, srdce a pocit, že človek niekam patrí.",
+  5: "Lagneš v 5. dome podporuje tvorivosť, inteligenciu a radosť zo sebarealizácie. Život sa napĺňa cez talenty, deti, tvorbu, poznanie a schopnosť niečo zanechať.",
+  6: "Lagneš v 6. dome vedie človeka cez prácu, službu a prekonávanie prekážok. Sila sa buduje cez disciplínu, každodenné úsilie, riešenie problémov a odolnosť.",
+  7: "Lagneš v 7. dome spája životnú cestu so vzťahmi a partnerstvami. Druhí ľudia sa stávajú dôležitým zrkadlom identity a cez spolužitie prichádza veľa životných lekcií.",
+  8: "Lagneš v 8. dome prináša hlboké zmeny, vnútorné prerody a silné transformačné skúsenosti. Život človeka často vedie do skrytých vrstiev reality, psychiky a karmy.",
+  9: "Lagneš v 9. dome smeruje život k poznaniu, viere, múdrosti a vyššiemu zmyslu. Človek rastie cez učenie, duchovnosť, filozofiu, učiteľov a širší pohľad na svet.",
+  10: "Lagneš v 10. dome dáva silné zameranie na činy vo svete, kariéru a spoločenské postavenie. Človek potrebuje niečo vytvoriť, dosiahnuť a zanechať viditeľnú stopu.",
+  11: "Lagneš v 11. dome spája životnú energiu s cieľmi, priateľstvami a naplnením túžob. Dôležitá je komunita, podpora okolia, sociálne prepojenia a dlhodobé vízie.",
+  12: "Lagneš v 12. dome vedie životnú energiu do vnútra, do samoty, spirituality a jemného vnímania. Človek sa učí púšťať kontrolu, chápať skryté vrstvy života a dozrievať cez vnútorný svet."
+};
+
+const MOON_SIGN_PROFILE = {
+
+"Baran": `
+Mesiac v Baranovi prináša dynamickú a spontánnu emocionálnu povahu.
+
+Pocity vznikajú rýchlo a intenzívne. Človek reaguje okamžite,
+často koná podľa momentálnej nálady a potrebuje pocit pohybu
+a aktivity.
+
+Psychická rovnováha prichádza cez akciu, nové skúsenosti
+a možnosť iniciovať veci. Keď energia stagnuje,
+môže sa objaviť nepokoj alebo podráždenosť.
+`,
+
+"Býk": `
+Mesiac v Býkovi prináša stabilnú a pokojnejšiu emocionálnu povahu.
+
+Človek hľadá bezpečie, stabilitu a materiálnu istotu.
+Emócie sú hlboké, ale vyjadrujú sa pokojne a trpezlivo.
+
+Psychická rovnováha prichádza cez stabilné prostredie,
+prírodu, krásu a zmyslové potešenia.
+`,
+
+"Blíženci": `
+Mesiac v Blížencoch prináša pohyblivú a zvedavú myseľ.
+
+Emócie sú úzko prepojené s myslením a komunikáciou.
+Takýto človek potrebuje rozhovory, výmenu myšlienok
+a mentálnu stimuláciu.
+
+Psychická rovnováha prichádza cez učenie,
+pohyb a kontakt s ľuďmi.
+`,
+
+"Rak": `
+Mesiac v Rakovi je vo svojom vlastnom znamení,
+preto tu pôsobí veľmi prirodzene.
+
+Emócie sú hlboké, citlivé a silne spojené s rodinou
+a pocitom bezpečia.
+
+Takýto človek má silnú intuiciu a schopnosť
+vytvárať domov a ochranné prostredie.
+`,
+
+"Lev": `
+Mesiac v Levovi prináša potrebu emocionálneho uznania
+a tvorivého vyjadrenia.
+
+Človek potrebuje cítiť, že je dôležitý,
+milovaný a oceňovaný.
+
+Psychická rovnováha prichádza cez kreativitu,
+seba-vyjadrenie a radosť zo života.
+`,
+
+"Panna": `
+Mesiac v Panne prináša analytickú a praktickú
+emocionálnu povahu.
+
+Človek má tendenciu analyzovať svoje pocity
+a snaží sa udržať vnútorný poriadok.
+
+Psychická rovnováha prichádza cez organizáciu,
+prácu a pocit užitočnosti.
+`,
+
+"Váhy": `
+Mesiac vo Váhach hľadá harmóniu a rovnováhu
+vo vzťahoch.
+
+Emócie sú silne prepojené s partnerskými
+a sociálnymi väzbami.
+
+Psychická pohoda prichádza cez krásu,
+harmonické prostredie a dobré vzťahy.
+`,
+
+"Škorpión": `
+Mesiac v Škorpiónovi prináša hlbokú a intenzívnu
+emocionálnu povahu.
+
+Pocity sú veľmi silné a často skryté pod povrchom.
+Takýto človek má schopnosť prenikať do
+psychologickej podstaty vecí.
+
+Život môže prinášať transformačné emocionálne skúsenosti.
+`,
+
+"Strelec": `
+Mesiac v Strelcovi potrebuje slobodu,
+priestor a širší horizont.
+
+Emócie sú optimistické a orientované
+na rast a poznanie.
+
+Psychická rovnováha prichádza cez cestovanie,
+filozofiu a hľadanie zmyslu života.
+`,
+
+"Kozorožec": `
+Mesiac v Kozorožcovi prináša disciplinovanú
+a zdržanlivejšiu emocionálnu povahu.
+
+Pocity sú kontrolované a často smerujú
+k zodpovednosti a povinnostiam.
+
+Psychická rovnováha prichádza cez stabilitu,
+úspech a dlhodobé ciele.
+`,
+
+"Vodnár": `
+Mesiac vo Vodnárovi prináša nezávislý
+a originálny emocionálny svet.
+
+Takýto človek potrebuje slobodu
+a mentálny priestor.
+
+Psychická rovnováha prichádza cez priateľstvá,
+ideály a nové myšlienky.
+`,
+
+"Ryby": `
+Mesiac v Rybách prináša veľmi citlivú,
+intuitívnu a imaginatívnu povahu.
+
+Takýto človek vníma jemné emocionálne
+a energetické vrstvy reality.
+
+Psychická rovnováha prichádza cez spiritualitu,
+umenie a súcit.
+`
+}
+
+const MOON_HOUSE_MEANING = {
+
+1: `
+Mesiac je ako vnútorný softvér mysle – a v 1. dome je priamo v centre osobnosti.
+
+Psychická pohoda závisí od toho, ako sa človek cíti vo vlastnej identite
+a ako môže spontánne prejaviť svoje pocity. Potrebuje slobodu byť sám sebou,
+reagovať prirodzene a bez prílišného potláčania emócií.
+
+Ak je tento vnútorný softvér blokovaný, môže vzniknúť nepokoj,
+pretože emócie potrebujú priamy a autentický prejav.
+`,
+
+2: `
+Keď je Mesiac v 2. dome, vnútorný softvér mysle hľadá bezpečie
+v stabilite, hodnotách a materiálnej istote.
+
+Psychická rovnováha prichádza cez pocit, že existuje pevný základ –
+domov, zdroje, jedlo, pohodlie a stabilné prostredie.
+Človek potrebuje vedieť, že má na čom stáť.
+
+Ak je tento pocit istoty narušený, môže vzniknúť úzkosť alebo potreba
+silnejšie kontrolovať materiálne podmienky života.
+`,
+
+3: `
+Mesiac v 3. dome potrebuje pohyb, komunikáciu a mentálnu stimuláciu.
+
+Vnútorný softvér mysle sa upokojuje cez rozhovory,
+zdieľanie myšlienok, učenie a kontakt s blízkym okolím.
+
+Človek potrebuje byť v spojení so svetom,
+vyjadrovať svoje pocity slovami a byť mentálne aktívny.
+Stagnácia alebo izolácia môže vytvárať nepokoj.
+`,
+
+4: `
+Mesiac v 4. dome hľadá najhlbšie bezpečie v pocite domova.
+
+Vnútorný softvér mysle potrebuje emocionálne bezpečné prostredie,
+rodinné väzby a miesto, kde sa môže úplne uvoľniť.
+
+Domov, rodina a vnútorný pokoj sú tu kľúčové.
+Keď sú tieto potreby naplnené, človek dokáže vytvárať
+silné a stabilné emocionálne zázemie aj pre ostatných.
+`,
+
+5: `
+Mesiac v 5. dome potrebuje radosť, tvorivosť a spontánne vyjadrenie.
+
+Vnútorný softvér mysle sa napĺňa cez kreativitu,
+hravosť, romantiku alebo vzťah k deťom.
+
+Človek potrebuje cítiť radosť zo života,
+možnosť tvoriť a vyjadrovať svoje emócie
+cez umelecké alebo tvorivé činnosti.
+`,
+
+6: `
+Mesiac v 6. dome hľadá psychickú rovnováhu
+cez poriadok, prácu a riešenie praktických vecí.
+
+Vnútorný softvér mysle potrebuje mať pocit,
+že veci sú organizované a pod kontrolou.
+
+Každodenné povinnosti, služba druhým alebo
+starostlivosť o zdravie môžu paradoxne
+prinášať pocit stability a pokoja.
+`,
+
+7: `
+Mesiac v 7. dome potrebuje vzťahy.
+
+Vnútorný softvér mysle sa stabilizuje cez kontakt s druhým človekom.
+Partnerstvo, dialóg a emocionálna výmena sú veľmi dôležité.
+
+Človek potrebuje cítiť, že nie je sám
+a že existuje vzťahová rovnováha.
+Keď sú vzťahy harmonické, psychika je pokojná.
+`,
+
+8: `
+Mesiac v 8. dome prináša hlboký a intenzívny emocionálny svet.
+
+Vnútorný softvér mysle sa neuspokojí s povrchom.
+Potrebné sú hlboké skúsenosti, psychologické pochopenie
+a transformácia.
+
+Človek môže prechádzať silnými emocionálnymi procesmi,
+ktoré ho postupne menia a prehlbujú jeho vnútorné poznanie.
+`,
+
+9: `
+Mesiac v 9. dome hľadá zmysel a širší horizont života.
+
+Vnútorný softvér mysle sa stabilizuje cez filozofiu,
+vieru, poznanie a pochopenie sveta.
+
+Človek potrebuje cítiť, že život má vyšší význam
+a že jeho skúsenosti sú súčasťou väčšieho príbehu.
+`,
+
+10: `
+Mesiac v 10. dome spája emócie s verejným životom.
+
+Vnútorný softvér mysle potrebuje cítiť,
+že jeho činy majú význam vo svete.
+
+Psychická rovnováha prichádza cez kariéru,
+spoločenské postavenie alebo pocit,
+že človek prispieva k niečomu dôležitému.
+`,
+
+11: `
+Mesiac v 11. dome potrebuje spoločenské prepojenie,
+priateľstvá a uznanie v širšom kruhu ľudí.
+
+Vnútorný softvér mysle hľadá pocit,
+že patrí do komunity a že jeho prítomnosť
+je v skupine vítaná a oceňovaná.
+
+Priateľstvá, spoločné projekty, ideály
+a spoločenské ciele prinášajú psychickú rovnováhu.
+
+Človek potrebuje cítiť podporu,
+uznanie a zdieľanie vízií s ľuďmi okolo seba.
+`,
+
+12: `
+Mesiac v 12. dome má veľmi citlivý vnútorný svet.
+
+Vnútorný softvér mysle potrebuje čas v tichu,
+samote alebo duchovnom priestore.
+
+Psychická rovnováha prichádza cez introspekciu,
+spiritualitu, umenie alebo hlboké vnútorné prežívanie.
+
+Samota tu nie je slabosť –
+je to spôsob, ako sa myseľ obnovuje.
+`
+}
+
+
+
+const SUN_SIGN_PROFILE = {
+
+"Baran": "Slnko v Baranovi prináša silnú vôľu, iniciatívu a potrebu konať. Človek chce byť lídrom, začínať nové veci a presadzovať vlastnú cestu.",
+
+"Býk": "Slnko v Býkovi dáva stabilitu, vytrvalosť a schopnosť budovať hodnoty v hmotnom svete. Človek potrebuje pocit istoty a pevné základy.",
+
+"Blíženci": "Slnko v Blížencoch prináša silnú potrebu komunikácie, učenia a zdieľania informácií. Identita sa formuje cez myšlienky a kontakty s ľuďmi.",
+
+"Rak": "Slnko v Rakovi vytvára silné spojenie s rodinou, domovom a citovým bezpečím. Človek sa identifikuje cez starostlivosť a ochranu druhých.",
+
+"Lev": "Slnko v Levovi je vo svojej sile. Prináša prirodzenú autoritu, tvorivosť a potrebu žiariť a byť videný.",
+
+"Panna": "Slnko v Panne dáva analytickú myseľ, zmysel pre detail a potrebu byť užitočný. Identita sa formuje cez prácu a službu.",
+
+"Váhy": "Slnko vo Váhach hľadá rovnováhu, harmóniu a spoluprácu s druhými. Identita sa rozvíja cez vzťahy a estetiku.",
+
+"Škorpión": "Slnko v Škorpiónovi prináša intenzitu, silnú vôľu a schopnosť prechádzať hlbokými transformáciami.",
+
+"Strelec": "Slnko v Strelcovi hľadá pravdu, poznanie a širší zmysel života. Človek potrebuje slobodu a možnosť rásť.",
+
+"Kozorožec": "Slnko v Kozorožcovi smeruje k zodpovednosti, disciplíne a budovaniu dlhodobých cieľov.",
+
+"Vodnár": "Slnko vo Vodnárovi prináša nezávislé myslenie, originalitu a orientáciu na budúcnosť.",
+
+"Ryby": "Slnko v Rybách vytvára citlivú, intuitívnu a duchovne orientovanú povahu."
+};
+
+const SUN_HOUSE_INTERPRETATION = {
+
+1: "Duša potrebuje cítiť slobodu byť sama sebou. Životná energia sa prejavuje cez osobnosť, iniciatívu a vlastnú cestu. Dôležitú úlohu zohráva vlastná identita a spôsob, akým človek vstupuje do sveta. Keď je táto energia potlačená, môže sa objaviť neistota alebo strata viery vo vlastnú silu.",
+
+2: "Duša potrebuje stabilitu, hodnoty a pocit materiálnej aj vnútornej istoty. Energia života sa prejavuje cez schopnosť vytvárať zdroje, budovať financie a rozvíjať vlastné talenty. Dôležitú úlohu zohráva rodina a otázka bezpečia. Keď energia stagnuje, môže sa objaviť strach z nedostatku alebo pochybnosti o vlastnej hodnote.",
+
+3: "Duša potrebuje komunikovať, učiť sa a byť v pohybe medzi ľuďmi. Energia života sa prejavuje cez myšlienky, slová, učenie a každodenné aktivity. Významnú úlohu zohrávajú súrodenci, priatelia a blízke okolie. Keď energia stagnuje, môže sa objaviť nepokoj mysle alebo pocit, že človek nemôže vyjadriť svoje myšlienky.",
+
+4: "Duša potrebuje domov, bezpečie a citové korene. Životná energia sa napĺňa cez rodinu, vnútorný svet a pocit zázemia. Dôležitú úlohu zohráva matka, rodinné väzby a miesto, kde sa človek cíti chránený. Keď energia stagnuje, môže sa objaviť vnútorná neistota alebo pocit odcudzenia.",
+
+5: "Duša potrebuje radosť, tvorivosť a možnosť vyjadriť svoje srdce. Energia života sa prejavuje cez tvorbu, talent, lásku a spontánnosť. Veľký význam môžu mať deti alebo mladšia generácia. Keď energia stagnuje, môže sa objaviť pocit prázdnoty alebo strata radosti zo života.",
+
+6: "Duša potrebuje zmysel v každodennej práci a pocit užitočnosti. Energia života sa prejavuje cez službu, disciplínu a starostlivosť o zdravie. Dôležitú úlohu zohrávajú kolegovia a pracovné prostredie. Keď energia stagnuje, môže sa objaviť únava alebo pocit, že úsilie nemá význam.",
+
+7: "Duša potrebuje vzťahy, partnerstvo a spoluprácu. Energia života sa napĺňa cez stretnutia s druhými ľuďmi a schopnosť vytvárať rovnováhu vo vzťahoch. Dôležitú úlohu zohráva partner alebo manželstvo. Keď energia stagnuje, môže sa objaviť pocit osamelosti alebo konflikty vo vzťahoch.",
+
+8: "Duša potrebuje preniknúť do hĺbky života a pochopiť skryté procesy premeny. Energia života sa prejavuje cez transformáciu, silné emócie a hlboké vzťahy. Dôležitú úlohu môže zohrávať rodina partnera alebo spoločné zdroje. Keď energia stagnuje, môže sa objaviť strach zo straty alebo intenzívne vnútorné napätie.",
+
+9: "Duša potrebuje hľadať pravdu, zmysel života a vyššie poznanie. Energia života sa napĺňa cez filozofiu, vieru, učenie a cestovanie. Dôležitú úlohu zohrávajú učitelia, mentori alebo starí rodičia. Keď energia stagnuje, môže sa objaviť pocit straty smeru alebo viery.",
+
+10: "Duša potrebuje dosiahnuť uznanie a zanechať stopu vo svete. Energia života sa prejavuje cez kariéru, zodpovednosť a spoločenské postavenie. Dôležitú úlohu môžu zohrávať autority alebo otec. Keď energia stagnuje, môže sa objaviť frustrácia z nedosiahnutých cieľov.",
+
+11: "Duša potrebuje cítiť spojenie s priateľmi, skupinou a spoločným cieľom. Energia života sa prejavuje cez sociálne aktivity, vízie a podporu komunity. Dôležitú úlohu môžu zohrávať starší súrodenci alebo podporovatelia. Keď energia stagnuje, môže sa objaviť pocit izolácie alebo nenaplnených plánov.",
+
+12: "Duša potrebuje ticho, vnútorný svet a duchovné spojenie. Energia života sa prejavuje cez súcit, predstavivosť a schopnosť vnímať jemné vrstvy reality. Dôležitú úlohu môžu zohrávať starí rodičia alebo predkovia. Keď energia stagnuje, môže sa objaviť pocit úniku zo sveta alebo vnútorný smútok."
+
+};
+
+const JUPITER_INTRO =
+"Jupiter v horoskope predstavuje múdrosť, vieru a životný rast. Ukazuje, kde človek nachádza zmysel, nádej a vnútorné rozšírenie. Energia Jupitera prináša optimizmus, poznanie a schopnosť vidieť širší obraz života.";
+
+const JUPITER_SIGN_PROFILE = {
+
+"Baran":
+"Viera rastie cez odvahu, iniciatívu a vlastné skúsenosti.",
+
+"Býk":
+"Múdrosť rastie cez stabilitu, hodnoty a praktický život.",
+
+"Blíženci":
+"Poznanie prichádza cez učenie, komunikáciu a výmenu myšlienok.",
+
+"Rak":
+"Viera sa opiera o rodinu, cit a vnútorný svet.",
+
+"Lev":
+"Múdrosť rastie cez tvorivosť, sebavyjadrenie a silu srdca.",
+
+"Panna":
+"Poznanie sa rozvíja cez službu, prácu a praktické skúsenosti.",
+
+"Váhy":
+"Viera rastie cez harmóniu, vzťahy a spravodlivosť.",
+
+"Škorpión":
+"Múdrosť vzniká cez hlboké životné skúsenosti a vnútornú premenu.",
+
+"Strelec":
+"Viera rastie cez filozofiu, poznanie a hľadanie pravdy.",
+
+"Kozorožec":
+"Múdrosť prichádza cez disciplínu, zodpovednosť a životné skúšky.",
+
+"Vodnár":
+"Poznanie rastie cez nové myšlienky a širšie chápanie sveta.",
+
+"Ryby":
+"Viera sa opiera o duchovno, súcit a hlbokú intuïciu."
+
+};
+
+const JUPITER_HOUSE_PROFILE = {
+
+1: "Životný rast prichádza cez rozvoj osobnosti a vlastnej životnej cesty.",
+
+2: "Rast prichádza cez hodnoty, financie a budovanie stability.",
+
+3: "Poznanie rastie cez učenie, komunikáciu a každodenné skúsenosti.",
+
+4: "Vnútorný rast prichádza cez rodinu, domov a citové zázemie.",
+
+5: "Múdrosť sa rozvíja cez tvorivosť, deti a radosť zo života.",
+
+6: "Rast prichádza cez prácu, disciplínu a službu druhým.",
+
+7: "Poznanie rastie cez partnerstvo a stretnutia s druhými ľuďmi.",
+
+8: "Múdrosť vzniká cez hlboké životné skúsenosti a transformáciu.",
+
+9: "Viera rastie cez filozofiu, učenie a duchovné poznanie.",
+
+10: "Rast prichádza cez kariéru, zodpovednosť a spoločenské postavenie.",
+
+11: "Poznanie sa rozvíja cez priateľov, skupiny a spoločné ideály.",
+
+12: "Vnútorná múdrosť prichádza cez duchovný život a vnútorné poznanie."
+
+};
+
+const SATURN_SIGN_PROFILE = {
+
+"Baran": "Saturn v Baranovi učí trpezlivosti v konaní. Duša sa učí, že skutočná sila neprichádza z impulzu, ale z vytrvalosti a disciplíny.",
+
+"Býk": "Saturn v Býkovi učí stabilite v materiálnom svete. Človek buduje hodnoty pomaly a postupne – cez prácu, vytrvalosť a zodpovednosť.",
+
+"Blíženci": "Saturn v Blížencoch učí disciplíne v myslení a komunikácii. Slová a myšlienky musia byť presné, pravdivé a premyslené.",
+
+"Rak": "Saturn v Rakovi učí zodpovednosti voči rodine a emóciám. Duša sa učí vytvárať bezpečie a stabilitu pre seba aj pre druhých.",
+
+"Lev": "Saturn v Levovi učí pokore v oblasti ega a tvorivosti. Skutočné sebavedomie vzniká až cez skúsenosť a vnútornú zrelosť.",
+
+"Panna": "Saturn v Panne učí disciplíne v práci a službe. Človek sa učí systematickosti, poriadku a precíznosti.",
+
+"Váhy": "Saturn vo Váhach učí zodpovednosti vo vzťahoch. Partnerstvo sa stáva školou rovnováhy, spravodlivosti a záväzku.",
+
+"Škorpión": "Saturn v Škorpióne prináša hlboké karmické skúšky. Človek sa učí zvládať krízy, transformáciu a silu vnútornej regenerácie.",
+
+"Strelec": "Saturn v Strelcovi učí disciplíne vo viere, filozofii a poznaní. Pravda sa buduje cez skúsenosť a dlhodobé hľadanie.",
+
+"Kozorožec": "Saturn v Kozorožcovi je silný. Učí zodpovednosti, autorite a budovaniu dlhodobých výsledkov.",
+
+"Vodnár": "Saturn vo Vodnárovi učí zodpovednosti voči spoločnosti a budúcnosti. Človek sa učí pracovať pre širšie dobro.",
+
+"Ryby": "Saturn v Rybách učí hraniciam v duchovnom svete. Duchovnosť musí byť spojená s realitou a vnútornou disciplínou."
+
+};
+
+const SATURN_HOUSE_PROFILE = {
+
+1: "Saturn v 1. dome učí zodpovednosti za vlastný život a charakter. Osobnosť dozrieva pomaly, ale postupne získava silu, disciplínu a vnútornú stabilitu. Slabý Saturn môže prinášať pochybnosti o sebe, strach alebo pocit obmedzenia. Silný Saturn dáva veľkú vytrvalosť, dôstojnosť a schopnosť niesť zodpovednosť za druhých.",
+
+2: "Saturn v 2. dome učí disciplíne vo financiách a v hodnotách. Materiálna stabilita sa buduje postupne cez prácu a trpezlivosť. Slabý Saturn môže prinášať finančné obavy alebo pocit nedostatku. Silný Saturn dáva schopnosť hospodáriť múdro a budovať pevné materiálne zázemie.",
+
+3: "Saturn v 3. dome učí vytrvalosti v komunikácii, učení a vlastnej iniciatíve. Človek sa učí konať systematicky a premyslene. Slabý Saturn môže prinášať strach z komunikácie alebo nedostatok odvahy konať. Silný Saturn dáva veľkú mentálnu disciplínu a schopnosť dlhodobo pracovať na svojich cieľoch.",
+
+4: "Saturn v 4. dome prináša karmické lekcie v rodine a v oblasti vnútorného bezpečia. Stabilita sa buduje postupne. Slabý Saturn môže prinášať pocit osamelosti alebo emocionálnu rezervovanosť. Silný Saturn dáva schopnosť vytvoriť pevný domov, stabilitu a vnútornú vyrovnanosť.",
+
+5: "Saturn v 5. dome učí zodpovednosti voči deťom, tvorivosti a osobnému prejavu. Radosť zo života prichádza cez zrelosť a skúsenosť. Slabý Saturn môže prinášať obavy z vlastného prejavu alebo napätie v oblasti detí. Silný Saturn dáva hlbokú tvorivosť, múdrosť a schopnosť byť dobrým učiteľom.",
+
+6: "Saturn v 6. dome podporuje disciplínu v práci, službe a starostlivosti o zdravie. Človek sa učí systematicky riešiť problémy. Slabý Saturn môže prinášať únavu alebo pocit preťaženia. Silný Saturn dáva veľkú pracovnú vytrvalosť, schopnosť zvládať prekážky a slúžiť druhým.",
+
+7: "Saturn v 7. dome prináša vážnosť a karmické lekcie vo vzťahoch. Partnerstvo sa stáva školou zodpovednosti a lojality. Slabý Saturn môže prinášať strach zo vzťahov alebo pocit chladu v partnerstve. Silný Saturn dáva stabilné a dlhodobé vzťahy založené na dôvere a záväzku.",
+
+8: "Saturn v 8. dome učí zvládať krízy, transformácie a hlboké životné zmeny. Duša sa učí sile vnútornej obnovy. Slabý Saturn môže prinášať strach zo zmien alebo pocit životného tlaku. Silný Saturn dáva veľkú psychickú odolnosť a schopnosť prejsť cez hlboké transformácie.",
+
+9: "Saturn v 9. dome učí disciplíne vo filozofii, viere a vyššom poznaní. Pravda sa buduje cez skúsenosť a dlhodobé štúdium. Slabý Saturn môže prinášať pochybnosti o viere alebo smerovaní života. Silný Saturn dáva hlbokú múdrosť a rešpekt k duchovnému poznaniu.",
+
+10: "Saturn v 10. dome silno ovplyvňuje kariéru a spoločenské postavenie. Úspech prichádza cez dlhodobú prácu a vytrvalosť. Slabý Saturn môže prinášať pomalý kariérny postup alebo pocit tlaku v práci. Silný Saturn dáva autoritu, stabilnú kariéru a rešpekt spoločnosti.",
+
+11: "Saturn v 11. dome učí trpezlivosti pri dosahovaní cieľov a pri budovaní sociálnych kontaktov. Úspech prichádza postupne. Slabý Saturn môže prinášať pocit izolácie alebo pomalé napĺňanie cieľov. Silný Saturn dáva schopnosť dosiahnuť veľké ciele cez vytrvalosť.",
+
+12: "Saturn v 12. dome vedie k hlbokej introspekcii a karmickému očisteniu. Človek sa učí chápať samotu, ticho a duchovnú disciplínu. Slabý Saturn môže prinášať pocity izolácie alebo vnútorné obavy. Silný Saturn dáva veľkú duchovnú hĺbku a schopnosť nájsť pokoj vo vnútri."
+
+};
+
+const RAHU_SIGN_PROFILE = {
+
+"Baran": "Rahu v Baranovi prináša silnú túžbu po samostatnosti, odvahe a osobnom presadení. Človek cíti potrebu konať a objavovať nové cesty. Ak je energia nevyvážená, môže viesť k impulzívnosti a netrpezlivosti. Vedome využitý Rahu dáva odvahu otvárať nové smerovanie života.",
+
+"Býk": "Rahu v Býkovi prináša silnú túžbu po stabilite, materiálnom zabezpečení a pohodlí. Človek hľadá bezpečie vo svete hmoty. Nevyvážený Rahu môže viesť k pripútanosti k majetku. Vedome využitý Rahu pomáha budovať hodnoty a stabilitu.",
+
+"Blíženci": "Rahu v Blížencoch prináša silnú potrebu poznania, komunikácie a informácií. Človek je zvedavý a otvorený novým myšlienkam. Nevyvážený Rahu môže viesť k nepokoju mysle. Vedome využitý Rahu dáva schopnosť rýchlo sa učiť a prepájať ľudí.",
+
+"Rak": "Rahu v Rakovi prináša silnú citlivosť a potrebu emocionálneho bezpečia. Človek hľadá domov, rodinu a vnútorné ukotvenie. Nevyvážený Rahu môže viesť k emocionálnej nestabilite. Vedome využitý Rahu prináša hlbokú empatiu.",
+
+"Lev": "Rahu v Levovi prináša silnú túžbu po uznaní, tvorivosti a sebavyjadrení. Človek chce žiariť a byť v centre pozornosti. Nevyvážený Rahu môže viesť k potrebe obdivu. Vedome využitý Rahu prináša veľkú tvorivú silu.",
+
+"Panna": "Rahu v Panne prináša potrebu poriadku, analýzy a zlepšovania sveta. Človek sa učí disciplíne a službe. Nevyvážený Rahu môže viesť k perfekcionizmu. Vedome využitý Rahu prináša schopnosť riešiť problémy.",
+
+"Váhy": "Rahu vo Váhach prináša silnú potrebu vzťahov a spolupráce. Človek sa učí rovnováhe medzi sebou a druhými. Nevyvážený Rahu môže viesť k závislosti od druhých. Vedome využitý Rahu prináša diplomaciu a schopnosť spolupracovať.",
+
+"Škorpión": "Rahu v Škorpióne prináša hlbokú túžbu po transformácii a poznaní tajomstiev života. Nevyvážený Rahu môže viesť k extrémom alebo vnútornému nepokoju. Vedome využitý Rahu dáva silu transformácie.",
+
+"Strelec": "Rahu v Strelcovi prináša silnú túžbu po pravde, poznaní a filozofii. Človek hľadá zmysel života. Nevyvážený Rahu môže viesť k fanatizmu. Vedome využitý Rahu prináša múdrosť a víziu.",
+
+"Kozorožec": "Rahu v Kozorožcovi prináša ambíciu, túžbu po úspechu a spoločenskom postavení. Nevyvážený Rahu môže viesť k prílišnému tlaku na výkon. Vedome využitý Rahu dáva schopnosť dosiahnuť veľké ciele.",
+
+"Vodnár": "Rahu vo Vodnárovi prináša záujem o spoločnosť, inovácie a budúcnosť. Človek chce meniť svet. Nevyvážený Rahu môže viesť k rebelii bez smeru. Vedome využitý Rahu prináša víziu pre spoločnosť.",
+
+"Ryby": "Rahu v Rybách prináša silnú citlivosť, fantáziu a duchovné hľadanie. Nevyvážený Rahu môže viesť k úniku z reality. Vedome využitý Rahu prináša hlbokú duchovnú inšpiráciu."
+
+};
+
+const RAHU_HOUSE_PROFILE = {
+
+1: "Rahu v 1. dome prináša silnú potrebu formovať vlastnú identitu. Človek hľadá svoju jedinečnú cestu.",
+
+2: "Rahu v 2. dome prináša silnú túžbu po materiálnom zabezpečení a hodnotách.",
+
+3: "Rahu v 3. dome prináša odvahu komunikovať, učiť sa a skúšať nové veci.",
+
+4: "Rahu v 4. dome prináša hľadanie emocionálneho bezpečia a vlastného domova.",
+
+5: "Rahu v 5. dome prináša túžbu po tvorivosti, radosti a sebavyjadrení.",
+
+6: "Rahu v 6. dome prináša potrebu riešiť problémy, pracovať a zdokonaľovať sa.",
+
+7: "Rahu v 7. dome prináša silnú túžbu po partnerstve a vzťahoch.",
+
+8: "Rahu v 8. dome prináša záujem o tajomstvá života, transformáciu a hlboké zmeny.",
+
+9: "Rahu v 9. dome prináša hľadanie pravdy, filozofie a duchovného poznania.",
+
+10: "Rahu v 10. dome prináša silnú ambíciu a túžbu po spoločenskom úspechu.",
+
+11: "Rahu v 11. dome prináša veľké ciele a túžbu po sociálnom uznaní.",
+
+12: "Rahu v 12. dome prináša hľadanie duchovného zmyslu a vnútorného pokoja."
+
+};
+
+const KETU_SIGN_PROFILE = {
+
+"Baran": "Ketu v Baranovi prináša skúsenosť samostatnosti z minulosti. Človek má prirodzenú odvahu, ale môže cítiť aj vnútornú únavu z neustáleho boja.",
+
+"Býk": "Ketu v Býkovi prináša skúsenosť materiálneho sveta. Človek sa učí neviazať sa príliš na hmotu.",
+
+"Blíženci": "Ketu v Blížencoch prináša prirodzený talent na komunikáciu a myslenie.",
+
+"Rak": "Ketu v Rakovi prináša hlboké emocionálne skúsenosti z minulosti.",
+
+"Lev": "Ketu v Levovi prináša skúsenosť osobnej moci a tvorivosti.",
+
+"Panna": "Ketu v Panne prináša prirodzený zmysel pre detail a analýzu.",
+
+"Váhy": "Ketu vo Váhach prináša skúsenosť vzťahov a partnerstva.",
+
+"Škorpión": "Ketu v Škorpióne prináša hlbokú transformačnú skúsenosť.",
+
+"Strelec": "Ketu v Strelcovi prináša skúsenosť duchovného poznania.",
+
+"Kozorožec": "Ketu v Kozorožcovi prináša skúsenosť práce, zodpovednosti a disciplíny.",
+
+"Vodnár": "Ketu vo Vodnárovi prináša skúsenosť práce pre spoločnosť.",
+
+"Ryby": "Ketu v Rybách prináša hlbokú duchovnú citlivosť."
+
+};
+
+const KETU_HOUSE_PROFILE = {
+
+1: "Ketu v 1. dome prináša pocit, že osobná identita už bola v minulosti silne rozvinutá.",
+
+2: "Ketu v 2. dome prináša skúsenosť materiálnych hodnôt z minulosti.",
+
+3: "Ketu v 3. dome prináša prirodzenú schopnosť komunikovať a učiť sa.",
+
+4: "Ketu v 4. dome prináša skúsenosť rodiny a domova z minulosti.",
+
+5: "Ketu v 5. dome prináša talent pre tvorivosť a učenie.",
+
+6: "Ketu v 6. dome prináša skúsenosť práce a služby.",
+
+7: "Ketu v 7. dome prináša skúsenosť partnerstva z minulosti.",
+
+8: "Ketu v 8. dome prináša hlbokú duchovnú transformáciu.",
+
+9: "Ketu v 9. dome prináša skúsenosť filozofie a duchovného poznania.",
+
+10: "Ketu v 10. dome prináša skúsenosť spoločenského postavenia.",
+
+11: "Ketu v 11. dome prináša skúsenosť sociálnych skupín a cieľov.",
+
+12: "Ketu v 12. dome prináša hlbokú duchovnú skúsenosť a vnútorné poznanie."
+
+};
+
+const KARMA_AXIS_PROFILE = {
+  "1-7": "Duša prichádza so skúsenosťou orientácie na druhých ľudí, vzťahy a zrkadlenie sa v partnerstve. V tomto živote sa učí budovať vlastnú identitu, samostatnosť a odvahu byť sama sebou. Karmická úloha vedie od prispôsobovania sa k vedomému sebavyjadreniu.",
+
+  "2-8": "Duša si nesie skúsenosť hlbokých väzieb, kríz, závislostí alebo života spojeného so zdrojmi druhých. V tomto živote sa učí vytvárať vlastné hodnoty, stabilitu a vnútorný pokoj. Karmická úloha vedie od chaosu a závislosti k jednoduchosti, istote a vlastnej cene.",
+
+  "3-9": "Duša prichádza so skúsenosťou viery, filozofie alebo hotových odpovedí. V tomto živote sa učí pozerať na svet prakticky, pýtať sa, komunikovať a získavať poznanie cez vlastnú skúsenosť. Karmická úloha vedie od presvedčení k živému poznávaniu reality.",
+
+  "4-10": "Duša si nesie silnú väzbu na domov, rodinu, vnútorné bezpečie alebo minulosť. V tomto živote sa učí vystúpiť do sveta, prevziať zodpovednosť, budovať kariéru a spoločenské postavenie. Karmická úloha vedie od súkromia k verejnej realizácii.",
+
+  "5-11": "Duša prichádza so skúsenosťou osobnej tvorivosti, talentu, detí alebo potreby byť výnimočná. V tomto živote sa učí spolupráci so skupinou, službe širšiemu cieľu a napĺňaniu vízií, ktoré presahujú osobné ego. Karmická úloha vedie od osobného lesku k spoločnému prínosu.",
+
+  "6-12": "Duša si nesie skúsenosť práce, služby, povinností a riešenia problémov. V tomto živote sa učí dôvere, odovzdaniu, duchovnému pokoju a schopnosti pustiť kontrolu. Karmická úloha vedie od neustáleho boja k vnútornému uvoľneniu a viere.",
+
+  "7-1": "Duša prichádza so skúsenosťou silnej identity, samostatnosti a orientácie na seba. V tomto živote sa učí partnerstvu, spolupráci a schopnosti vnímať potreby druhých. Karmická úloha vedie od sebestačnosti k vedomej rovnováhe vo vzťahoch.",
+
+  "8-2": "Duša si nesie skúsenosť transformácie, kríz a hlbokých emocionálnych alebo karmických väzieb. V tomto živote sa učí jednoduchosti, stabilite, finančnej istote a budovaniu vlastných hodnôt. Karmická úloha vedie od extrémov k pokoju a pevnosti.",
+
+  "9-3": "Duša prichádza so skúsenosťou duchovného poznania, viery a vyšších princípov. V tomto živote sa učí každodennej komunikácii, praktickému mysleniu a skromnosti v učení. Karmická úloha vedie od veľkých právd k živej ľudskej skúsenosti.",
+
+  "10-4": "Duša si nesie skúsenosť výkonu, zodpovednosti, autority alebo spoločenského postavenia. V tomto živote sa učí vytvoriť si domov, vnútorný pokoj a citové ukotvenie. Karmická úloha vedie od vonkajšieho úspechu k vnútornému naplneniu.",
+
+  "11-5": "Duša prichádza so skúsenosťou skupín, priateľstiev, sietí a veľkých cieľov. V tomto živote sa učí počúvať srdce, tvoriť, radovať sa a rozvíjať osobný talent. Karmická úloha vedie od kolektívnych očakávaní k autentickému sebavyjadreniu.",
+
+  "12-6": "Duša si nesie skúsenosť samoty, duchovného ústrania, strát alebo života mimo bežného sveta. V tomto živote sa učí disciplíne, práci, starostlivosti o telo a praktickému zvládaniu reality. Karmická úloha vedie od úniku k vedomej službe a poriadku."
+};
+
+const ASC_TEXT = {
+
+"Baran": {
+short: "Priamy, energický a iniciatívny spôsob vstupu do života.",
+long: `
+Ascendent v Baranovi prináša dynamickú, priamu a aktívnu povahu.
+Človek reaguje spontánne a má prirodzenú potrebu konať a
+presadzovať vlastnú cestu.
+
+Baran ako prvé znamenie zodiaku dáva silnú potrebu začínať nové
+veci, objavovať a skúšať. Takýto človek sa často púšťa do života
+s odvahou a entuziazmom.
+
+Silnou stránkou je iniciatíva, odvaha a schopnosť ísť dopredu.
+Výzvou môže byť netrpezlivosť alebo impulzívne rozhodovanie.
+`
+},
+
+"Býk": {
+short: "Stabilný, pokojný a praktický spôsob prežívania života.",
+long: `
+Ascendent v Býkovi prináša pokojný a stabilný temperament.
+Človek sa snaží vytvárať istotu, pevné základy a bezpečné
+prostredie.
+
+Životná cesta sa často rozvíja pomaly, ale veľmi stabilne.
+Takýto človek má schopnosť budovať veci postupne a vytrvalo.
+
+Silnou stránkou je trpezlivosť, praktickosť a vytrvalosť.
+Výzvou môže byť prílišná tvrdohlavosť alebo odpor k zmene.
+`
+},
+
+"Blíženci": {
+short: "Zvedavý, komunikatívny a pohyblivý spôsob života.",
+long: `
+Ascendent v Blížencoch prináša zvedavú myseľ a silnú potrebu
+komunikácie.
+
+Takýto človek sa rád učí nové veci, zbiera informácie a
+rozpráva sa s ľuďmi. Život je pre neho priestorom na výmenu
+myšlienok a skúseností.
+
+Silnou stránkou je flexibilita, inteligencia a schopnosť
+prispôsobiť sa rôznym situáciám.
+`
+},
+
+"Rak": {
+short: "Citlivý, ochranný a intuitívny spôsob prežívania života.",
+long: `
+Ascendent v Rakovi prináša silnú citlivosť a intuiciu.
+
+Takýto človek vníma svet cez emócie a vnútorné pocity.
+Domov, rodina a bezpečie zohrávajú veľmi dôležitú úlohu.
+
+Silnou stránkou je empatia, starostlivosť a schopnosť
+vytvárať bezpečné prostredie pre druhých.
+`
+},
+
+"Lev": {
+short: "Sebavedomý, tvorivý a výrazný spôsob prejavu.",
+long: `
+Ascendent v Levovi prináša prirodzenú potrebu žiariť
+a vyjadrovať svoju osobnosť.
+
+Takýto človek má často silnú tvorivú energiu a túžbu
+byť videný a ocenený.
+
+Silnou stránkou je veľkorysosť, kreativita a schopnosť
+inšpirovať ostatných.
+`
+},
+
+"Panna": {
+short: "Analytický, praktický a precízny prístup k životu.",
+long: `
+Ascendent v Panne prináša schopnosť analyzovať,
+organizovať a zlepšovať veci.
+
+Takýto človek si často všíma detaily a snaží sa
+urobiť veci čo najlepšie.
+
+Silnou stránkou je praktickosť, presnosť a schopnosť
+riešiť problémy.
+`
+},
+
+"Váhy": {
+short: "Harmonický, diplomatický a estetický prístup k svetu.",
+long: `
+Ascendent vo Váhach prináša silný zmysel pre harmóniu
+a rovnováhu.
+
+Takýto človek prirodzene hľadá spoluprácu, krásu
+a dobré vzťahy s ľuďmi.
+
+Silnou stránkou je diplomacia, cit pre estetiku
+a schopnosť vytvárať rovnováhu.
+`
+},
+
+"Škorpión": {
+short: "Intenzívny, hlboký a transformačný prístup k životu.",
+long: `
+Ascendent v Škorpiónovi prináša silnú vnútornú intenzitu
+a schopnosť prenikať do podstaty vecí.
+
+Takýto človek často vníma skryté motivácie a
+psychologické vrstvy reality.
+
+Silnou stránkou je odvaha čeliť hlbokým procesom
+a schopnosť transformácie.
+`
+},
+
+"Strelec": {
+short: "Optimistický, filozofický a hľadajúci prístup k svetu.",
+long: `
+Ascendent v Strelcovi prináša túžbu po poznaní,
+slobode a širšom horizonte života.
+
+Takýto človek často hľadá pravdu, zmysel a
+filozofické pochopenie sveta.
+
+Silnou stránkou je optimizmus, vízia a túžba
+po raste.
+`
+},
+
+"Kozorožec": {
+short: "Disciplínovaný, realistický a cieľavedomý prístup k životu.",
+long: `
+Ascendent v Kozorožcovi prináša zodpovednosť,
+vytrvalosť a schopnosť budovať veci v čase.
+
+Takýto človek často postupuje pomaly, ale veľmi
+systematicky smerom k svojim cieľom.
+
+Silnou stránkou je disciplína, trpezlivosť
+a realistický pohľad na život.
+`
+},
+
+"Vodnár": {
+short: "Originálny, nezávislý a progresívny pohľad na život.",
+long: `
+Ascendent vo Vodnárovi prináša nezávislé myslenie
+a potrebu slobody.
+
+Takýto človek často vidí veci z netradičného
+uhla pohľadu a môže prinášať nové myšlienky.
+
+Silnou stránkou je originalita a schopnosť
+myslieť dopredu.
+`
+},
+
+"Ryby": {
+short: "Citlivý, intuitívny a duchovný prístup k svetu.",
+long: `
+Ascendent v Rybách prináša silnú predstavivosť
+a hlbokú intuiciu.
+
+Takýto človek vníma jemné vrstvy reality
+a často má silný súcit s druhými.
+
+Silnou stránkou je empatia, fantázia
+a duchovné vnímanie sveta.
+`
+}
+
+}
+
+// pomocná funkcia – nájde planétu podľa mena
+function findPlanetByName(planets, name) {
+  if (!Array.isArray(planets)) return null;
+  return planets.find(p => (p.name || "").trim() === name) || null;
+}
+
+function renderLagnes(lagnesName, lagnesRasi, lagnesHouse) {
+  const lagnesBox = document.getElementById("lagnesText");
+  if (!lagnesBox) return;
+
+  const signTxt = LAGNES_SIGN_PROFILE[(lagnesRasi || "").trim()] || "";
+  const houseTxt = LAGNES_HOUSE_PROFILE[lagnesHouse] || "";
+
+  lagnesBox.innerHTML = lagnesName
+    ? `
+      <p><b>Vládca Ascendentu – ${lagnesName}${lagnesRasi ? ` v znamení ${lagnesRasi}` : ""}${lagnesHouse ? ` v ${lagnesHouse}. dome` : ""}</b></p>
+      ${signTxt ? `<p>${signTxt}</p>` : ""}
+      ${houseTxt ? `<p>${houseTxt}</p>` : ""}
+    `
+    : `<p><i>Vládcu Ascendentu sa nepodarilo určiť.</i></p>`;
+}
+
+ function renderSun(sunRasi, sunHouse) {
+  const sunBox = document.getElementById("sunText");
+  if (!sunBox) return;
+
+  const signTxt = SUN_SIGN_PROFILE[(sunRasi || "").trim()] || "";
+  const houseTxt = SUN_HOUSE_INTERPRETATION[sunHouse] || "";
+
+  sunBox.innerHTML = sunRasi
+    ? `
+      <p><b>Slnko v znamení ${sunRasi}${sunHouse ? ` v ${sunHouse}. dome` : ""}</b></p>
+      ${signTxt ? `<p>${signTxt}</p>` : ""}
+      ${houseTxt ? `<p>${houseTxt}</p>` : ""}
+    `
+    : `<p><i>Slnko sa nepodarilo určiť.</i></p>`;
+ }
+
+
+  // --- South Indian chart (D1) ---
+function southIndianHTML(planets, ascRasi, title = "", ascDeg = "") {
+
+   const short = (name) => ({
+  "Slnko":"Su",
+  "Mesiac":"Mo",
+  "Mars":"Ma",
+  "Merkúr":"Me",
+  "Jupiter":"Ju",
+  "Venuša":"Ve",
+  "Saturn":"Sa",
+  "Rahu":"Ra",
+  "Ketu":"Ke",
+  "Uran":"Ur",
+  "Neptún":"Ne",
+  "Pluto":"Pl",
+
+  "Ascendent":"Asc",
+  "Asc":"Asc"
+}[name] || (name ? name.slice(0,2) : ""));
+
+  const fmtDeg = (p) => {
+    const d = (p.deg_in_rasi ?? p.deg ?? p.degree ?? "");
+    if (d === "" || d === null || d === undefined) return "";
+    const num = Number(d);
+    return Number.isFinite(num) ? `${num.toFixed(2)}°` : `${d}°`;
+  };
+
+  const bySign = {};
+  const allSigns = ["Baran","Býk","Blíženci","Rak","Lev","Panna","Váhy","Škorpión","Strelec","Kozorožec","Vodnár","Ryby"];
+  for (const s of allSigns) bySign[s] = [];
+
+// planéty
+for (const p of (planets || [])) {
+  if (!p.rasi || !bySign[p.rasi]) continue;
+
+  const rx = p.retro ? `<span class="retro">℞</span>` : "";
+  bySign[p.rasi].push(`${short(p.name)}${rx} ${fmtDeg(p)}`.trim());
+}
+
+
+  // Asc / Lagna do správneho znamenia
+  if (ascRasi && bySign[ascRasi]) {
+  const d = (ascDeg !== "" && ascDeg != null)
+    ? ` ${Number(ascDeg).toFixed(2)}°`
+    : "";
+  bySign[ascRasi].unshift(`Asc${d}`);
+}
+
+  // poradie znamení (slovensky)
+const signs = ["Baran","Býk","Blíženci","Rak","Lev","Panna","Váhy","Škorpión","Strelec","Kozorožec","Vodnár","Ryby"];
+
+// pozície okolo okraja (12 polí), stred 2×2 prázdny
+const ring = [
+  [0,0],[0,1],[0,2],[0,3], // horný rad (4)
+  [1,3],[2,3],             // pravý stĺpec (2)
+  [3,3],[3,2],[3,1],[3,0], // spodný rad (4)
+  [2,0],[1,0]              // ľavý stĺpec (2)
+];
+
+// ⬇️ TOTO je kľúč: posun orientácie, aby to sedelo na tvoju šablónu.
+// Keď sa ti Baran zobrazuje v "Rybách", nastav offset = 1.
+const offset = 11;  // ak by bolo stále zle, skús 2 alebo 11
+
+// vytvor mriežku 4×4 s prázdnym stredom
+const grid = [
+  ["","","",""],
+  ["","","",""],
+  ["","","",""],
+  ["","","",""],
+];
+
+for (let i = 0; i < ring.length; i++) {
+  const [r,c] = ring[i];
+  grid[r][c] = signs[(i + offset) % 12];
+}
+
+  let h = "";
+
+if (title) {
+  h += `<h3>${title}</h3>`;
+}
+
+h += `<div class="si-chart">`;
+
+
+  for (const row of grid) {
+    for (const cell of row) {
+      if (!cell) {
+        h += `<div class="si-cell si-empty"></div>`;
+      } else {
+        const lines = bySign[cell] || [];
+        const isAscCell = (ascRasi && cell === ascRasi);
+        h += `<div class="si-cell ${isAscCell ? "si-asc" : ""}"><div class="si-pl">`;
+        if (lines.length) {
+          for (const line of lines) h += `<div>${line}</div>`;
+        }
+        h += `</div></div>`;
+      }
+    }
+  }
+
+  h += `</div>`;
+  return h;
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM loaded ✅");
+
+  const btn = document.getElementById("btn");
+  const pdfBtn = document.getElementById("pdfBtn");
+  
+    // ===============================
+  // 🌙 GLOBÁLNE PREMENNÉ PRE VÝPOČET
+  // (musia byť TU, aby ich videl celý handler)
+  // ===============================
+  let ascLabel = "";
+  let ascRasi = "";
+  let ascDegLabel = "";
+  let ascD9Label = "";
+
+  let moonObj = null;
+  let moonRasi = "";
+  let moonHouse = "";
+
+  let sunObj = null;
+  let sunRasi = "";
+  let sunHouse = null;
+
+  let jupiterObj = null;
+  let jupiterRasi = "";
+  let jupiterHouse = null;
+
+  let lagnesName = "";
+  let lagnesObj = null;
+  let lagnesRasi = "";
+  let lagnesHouse = null;
+
+  if (!btn) {
+    alert('Nenašiel som tlačidlo s id="btn"');
+    return;
+  }
+
+  if (pdfBtn) {
+    pdfBtn.addEventListener("click", () => window.print());
+  }
+
+  // (voliteľné) NÁJSŤ MIESTO cez Nominatim – nechaj, ak používaš
+  const findBtn = document.getElementById("findPlaceBtn");
+  const placeInput = document.getElementById("place");
+  const latInput = document.getElementById("lat");
+  const lonInput = document.getElementById("lon");
+  const tzInput = document.getElementById("tz"); // alebo zmeň "tz" na tvoje reálne id
+
+  if (findBtn) {
+    findBtn.addEventListener("click", async () => {
+      const q = (placeInput?.value || "").trim();
+      if (!q) return alert("Napíš mesto, napr. Bratislava.");
+
+      try {
+        const r = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(q)}`
+        );
+        const data = await r.json();
+        // ✅ aby nikdy nevznikla chyba "before initialization"
+        
+
+        if (!data || !data.length) return alert("Miesto sa nenašlo.");
+
+        const lat = (+data[0].lat).toFixed(6);
+        const lon = (+data[0].lon).toFixed(6);
+
+        if (latInput) latInput.value = lat;
+        if (lonInput) lonInput.value = lon;
+
+      // ✅ AUTO TIMEZONE z backendu
+      try {
+        const tzRes = await fetch(`/tz?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}`);
+        const tzData = await tzRes.json();
+        if (tzInput && tzData?.tz_name) tzInput.value = tzData.tz_name;
+      } catch (e) {
+        console.log("TZ fetch failed:", e);
+      }
+
+      alert("Nájdené: " + data[0].display_name);
+    } catch (e) {
+      alert("Chyba pri hľadaní miesta: " + (e?.message || e));
+    }
+  });
+}
+
+  // ===== VYPOČÍTAŤ HOROSKOP =====
+  btn.addEventListener("click", async () => {
+    console.log("CLICK OK ✅");
+
+    const outPlanets = document.getElementById("planetsTable");
+    const outDashas = document.getElementById("dashas");
+    const outD1 = document.getElementById("chartD1");
+    const outD9 = document.getElementById("chartD9");
+
+    const interp = document.getElementById("interpretation");   // ✅ PRIDAJ
+    const outAsc = document.getElementById("ascText");
+    const outMoon = document.getElementById("moonText");         // ✅ PRIDAJ (odporúčam)
+    
+    
+    console.log("outD1 exists:", outD1);
+    console.log("outD9 exists:", outD9);
+    
+    if (outPlanets) outPlanets.innerHTML = "Počítam…";
+    if (outDashas) outDashas.innerHTML = "";
+    if (outD1) outD1.innerHTML = "";
+    if (outD9) outD9.innerHTML = "";
+    if (interp) interp.innerHTML = "";
+    if (outAsc) outAsc.innerHTML = "";
+
+    const year = document.getElementById("year");
+    const month = document.getElementById("month");
+    const day = document.getElementById("day");
+    const hour = document.getElementById("hour");
+    const minute = document.getElementById("minute");
+    const lat = document.getElementById("lat");
+    const lon = document.getElementById("lon");
+    const tz = document.getElementById("tz");
+
+    if (!year || !month || !day || !hour || !minute || !lat || !lon || !tz) {
+      if (outPlanets) outPlanets.innerHTML = "Chyba: chýba niektoré input pole.";
+      return;
+    }
+
+    const payload = {
+      year: +year.value,
+      month: +month.value,
+      day: +day.value,
+      hour: +hour.value,
+      minute: +minute.value,
+      lat: +lat.value,
+      lon: +lon.value,
+      tz_name: tz.value.trim(),
+    };
+
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), 8000);
+
+    let res;
+    try {
+      res = await fetch("/calc", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+    } catch (e) {
+      if (outPlanets) outPlanets.innerHTML = "Chyba pripojenia alebo timeout: " + e;
+      return;
+    } finally {
+      clearTimeout(t);
+    }
+
+    if (!res.ok) {
+      if (outPlanets) outPlanets.innerHTML = "Chyba zo servera: " + await res.text();
+      return;
+    }
+
+    const data = await res.json();
+    console.log("PLANET SAMPLE:", data.planets?.[0]);
+    const ascObj = (data.asc && typeof data.asc === "object") ? data.asc : null;
+
+    // ===============================
+// ✅ BLOK: MESIAC TEXT + VÝZNAM DOMU (FINÁL)
+// (vložiť hneď po: const data = await res.json();)
+// ===============================
+
+
+
+// 2️⃣ NORMALIZÁCIA ZNAMENÍ – MUSÍ BYŤ PRED if
+const SIGN_FIX = {
+  "Skorpion": "Škorpión",
+  "Škorpion": "Škorpión",
+  "Kozorozec": "Kozorožec",
+  "Vodnar": "Vodnár",
+  "Vahy": "Váhy",
+  "Byk": "Býk",
+  "Blizenci": "Blíženci",
+  "Blizency": "Blíženci"
+};
+
+
+// ===== VÝZNAMY DOMOV PRE MESIAC =====
+
+
+
+// ===============================
+// ✅ KONIEC BLOKU MESIACA
+// ===============================
+
+
+   // ===== PLANÉTY TABUĽKA =====
+    let planetsHtml = `
+      <div class="box">
+        <b>UTC:</b> ${data.utc}<br>
+        <b>Ayanamša:</b> ${data.ayanamsa_lahiri}°<br>
+        <b>ASC:</b> ${ascLabel} ${ascDegLabel}° | <b>D9:</b> ${ascD9Label}
+      </div>
+
+      <table>
+        <tr>
+          <th>Planéta</th>
+          <th>D1</th>
+          <th>Nakšatra</th>
+          <th>Pada</th>
+          <th>D9</th>
+          <th>Rýchlosť (°/deň)</th>
+        </tr>
+    `;
+    
+        // ===== ASC RIADOK DO TABUĽKY =====
+    if (ascObj && (ascObj.rasi || ascLabel)) {
+      planetsHtml += `
+        <tr>
+          <td><b>ASC</b></td>
+          <td>${(ascObj.rasi ?? ascLabel ?? "")} ${(ascObj.deg_in_rasi ?? ascDegLabel ?? "")}°</td>
+          <td>${ascObj.nakshatra ?? ""}</td>
+          <td>${ascObj.pada ?? ""}</td>
+          <td>${ascObj.d9 ?? ascD9Label ?? ""}</td>
+          <td></td>
+        </tr>
+      `;
+    }
+
+    for (const p of (data.planets || [])) {
+      planetsHtml += `
+        <tr>
+          <td>${p.name}${p.retro ? " ℞" : ""}</td>
+          <td>${p.rasi} ${(p.deg_in_rasi ?? "")}°</td>
+          <td>${p.nakshatra}</td>
+          <td>${p.pada}</td>
+          <td>${p.d9 ?? ""}</td>
+          <td>${p.speed != null ? Number(p.speed).toFixed(5) : ""}</td>
+        </tr>
+      `;
+    }
+
+    planetsHtml += `</table>`;
+    if (outPlanets) outPlanets.innerHTML = planetsHtml;
+
+    {
+  
+ // ===== ASC PRE VÝPOČET DOMOV =====
+let ascRasi = ((ascObj?.rasi ?? ascLabel ?? "")).trim();
+
+console.log("ASC DEBUG:", {
+  ascObj,
+  ascLabel,
+  ascRasi
+});   
+
+const outMoon = document.getElementById("moonText");
+
+// nájdi Mesiac v planétach (slovensky aj anglicky)
+const moonP =
+  (data.planets || []).find(p => p.name === "Mesiac" || p.name === "Moon") || null;
+
+// nájdi Slnko v planétach
+const sunP =
+  (data.planets || []).find(p => p.name === "Slnko" || p.name === "Sun") || null;
+
+// nájdi Jupiter v planétach
+const jupiterP =
+  (data.planets || []).find(
+    p => p.name === "Jupiter" || p.name === "Guru" || p.name === "Jup"
+  ) || null; 
+  
+ const saturnP =
+  (data.planets || []).find(
+    p => p.name === "Saturn" || p.name === "Sat" || p.name === "Shani"
+  ) || null; 
+
+ const rahuP =
+  (data.planets || []).find(
+    p => p.name === "Rahu" || p.name === "North Node"
+  ) || null;
+
+const ketuP =
+  (data.planets || []).find(
+    p => p.name === "Ketu" || p.name === "South Node"
+  ) || null; 
+
+// poradie znamení pre výpočet domov
+const SIGNS12 = ["Baran","Býk","Blíženci","Rak","Lev","Panna","Váhy","Škorpión","Strelec","Kozorožec","Vodnár","Ryby"];
+
+
+// ===== MESIAC =====
+const moonObj =
+  (data.planets || []).find(p => p.name === "Mesiac" || p.name === "Moon") || null;
+
+let moonRasi = "";
+let moonHouse = null;
+
+console.log("MOON OBJECT:", moonObj);
+console.log("ALL PLANETS:", data.planets);
+
+if (moonObj?.rasi) {
+  moonRasi = moonObj.rasi.trim();
+}
+
+if (moonRasi && ascRasi) {
+  const ascIdx = SIGNS12.indexOf((ascRasi || "").trim());
+  const moonIdx = SIGNS12.indexOf((moonRasi || "").trim());
+
+  if (ascIdx >= 0 && moonIdx >= 0) {
+    moonHouse = ((moonIdx - ascIdx + 12) % 12) + 1;
+  }
+}
+
+console.log("MOON CALC:", {
+  ascRasi,
+  moonObj,
+  moonRasi,
+  moonHouse
+});
+
+const moonBox = document.getElementById("moonText");
+console.log("moonBox exists?", !!moonBox);
+
+if (moonBox) {
+  const key = moonRasi;
+  const profileExists = typeof MOON_SIGN_PROFILE !== "undefined";
+  const moonTxt = profileExists ? (MOON_SIGN_PROFILE[key] || "") : "";
+
+  const houseTxt =
+    (typeof MOON_HOUSE_MEANING !== "undefined" && moonHouse)
+      ? (MOON_HOUSE_MEANING[moonHouse] || "")
+      : "";
+
+  console.log("MOON TEXT KEY:", key, "profileExists:", profileExists, "hasText:", !!moonTxt);
+  console.log("MOON HOUSE:", moonHouse, "houseTxt exists?", !!houseTxt);
+
+  moonBox.innerHTML = `
+    <p><b>Mesiac v znamení ${key}${moonHouse ? ` v ${moonHouse}. dome` : ""}</b></p>
+    ${moonTxt ? `<p>${moonTxt}</p>` : `<p><i>Text pre Mesiac sa nenašiel pre znamenie ${key}</i></p>`}
+    ${houseTxt ? `<p><b>Mesiac v dome:</b> ${houseTxt}</p>` : `<p><i>Popis domu sa nenašiel.</i></p>`}
+  `;
+}
+
+// ===== SLNKO =====
+let sunRasi = "";
+let sunHouse = null;
+
+if (sunP?.rasi) {
+  sunRasi = sunP.rasi.trim();
+}
+
+if (sunRasi && ascRasi) {
+  const ascIdx = SIGNS12.indexOf((ascRasi || "").trim());
+  const sunIdx = SIGNS12.indexOf((sunRasi || "").trim());
+
+  if (ascIdx >= 0 && sunIdx >= 0) {
+    sunHouse = ((sunIdx - ascIdx + 12) % 12) + 1;
+  }
+}
+
+console.log("SUN DEBUG:", {
+  ascRasi,
+  sunRasi,
+  sunHouse
+});
+
+renderSun(sunRasi, sunHouse);  
+
+// ===== JUPITER =====
+let jupiterRasi = "";
+let jupiterHouse = null;
+
+if (jupiterP?.rasi) {
+  jupiterRasi = jupiterP.rasi.trim();
+}
+
+if (jupiterRasi && ascRasi) {
+  const ascIdx = SIGNS12.indexOf((ascRasi || "").trim());
+  const jupiterIdx = SIGNS12.indexOf((jupiterRasi || "").trim());
+
+  if (ascIdx >= 0 && jupiterIdx >= 0) {
+    jupiterHouse = ((jupiterIdx - ascIdx + 12) % 12) + 1;
+  }
+}
+
+console.log("JUPITER DEBUG:", {
+  ascRasi,
+  jupiterRasi,
+  jupiterHouse
+});
+
+const jupiterBox = document.getElementById("jupiterText");
+console.log("jupiterBox exists?", !!jupiterBox);
+
+if (jupiterBox) {
+  const signText =
+    (typeof JUPITER_SIGN_PROFILE !== "undefined" && jupiterRasi)
+      ? (JUPITER_SIGN_PROFILE[jupiterRasi] || "")
+      : "";
+
+  const houseText =
+    (typeof JUPITER_HOUSE_PROFILE !== "undefined" && jupiterHouse)
+      ? (JUPITER_HOUSE_PROFILE[jupiterHouse] || "")
+      : "";
+
+  jupiterBox.innerHTML = `
+    <p><b>Jupiter v znamení ${jupiterRasi}${jupiterHouse ? ` v ${jupiterHouse}. dome` : ""}</b></p>
+    ${signText ? `<p>${signText}</p>` : `<p><i>Text pre Jupiter sa nenašiel pre znamenie ${jupiterRasi}</i></p>`}
+    ${houseText ? `<p><b>Jupiter v dome:</b> ${houseText}</p>` : `<p><i>Popis domu sa nenašiel.</i></p>`}
+  `;
+}
+
+// ===== SATURN =====
+let saturnRasi = "";
+let saturnHouse = null;
+
+if (saturnP?.rasi) {
+  saturnRasi = saturnP.rasi.trim();
+}
+
+if (saturnRasi && ascRasi) {
+  const ascIdx = SIGNS12.indexOf((ascRasi || "").trim());
+  const satIdx = SIGNS12.indexOf((saturnRasi || "").trim());
+
+  if (ascIdx >= 0 && satIdx >= 0) {
+    saturnHouse = ((satIdx - ascIdx + 12) % 12) + 1;
+  }
+}
+
+console.log("SATURN DEBUG:", {
+  ascRasi,
+  saturnRasi,
+  saturnHouse
+}); 
+
+const saturnBox = document.getElementById("saturnText");
+console.log("saturnBox exists?", !!saturnBox);
+
+if (saturnBox) {
+
+  const signText =
+    (typeof SATURN_SIGN_PROFILE !== "undefined" && saturnRasi)
+      ? (SATURN_SIGN_PROFILE[saturnRasi] || "")
+      : "";
+
+  const houseText =
+    (typeof SATURN_HOUSE_PROFILE !== "undefined" && saturnHouse)
+      ? (SATURN_HOUSE_PROFILE[saturnHouse] || "")
+      : "";
+
+  saturnBox.innerHTML = `
+    <p><b>Saturn v znamení ${saturnRasi}${saturnHouse ? ` v ${saturnHouse}. dome` : ""}</b></p>
+    ${signText ? `<p>${signText}</p>` : `<p><i>Text pre Saturn sa nenašiel.</i></p>`}
+    ${houseText ? `<p><b>Saturn v dome:</b> ${houseText}</p>` : `<p><i>Popis domu sa nenašiel.</i></p>`}
+  `;
+}
+
+
+// ===== RAHU =====
+let rahuRasi = "";
+let rahuHouse = null;
+
+if (rahuP?.rasi) {
+  rahuRasi = rahuP.rasi.trim();
+}
+
+if (rahuRasi && ascRasi) {
+  const ascIdx = SIGNS12.indexOf((ascRasi || "").trim());
+  const rahuIdx = SIGNS12.indexOf((rahuRasi || "").trim());
+
+  if (ascIdx >= 0 && rahuIdx >= 0) {
+    rahuHouse = ((rahuIdx - ascIdx + 12) % 12) + 1;
+  }
+}
+
+console.log("RAHU DEBUG:", {
+  ascRasi,
+  rahuRasi,
+  rahuHouse
+});
+
+// ===== KETU =====
+let ketuRasi = "";
+let ketuHouse = null;
+
+if (ketuP?.rasi) {
+  ketuRasi = ketuP.rasi.trim();
+}
+
+if (ketuRasi && ascRasi) {
+  const ascIdx = SIGNS12.indexOf((ascRasi || "").trim());
+  const ketuIdx = SIGNS12.indexOf((ketuRasi || "").trim());
+
+  if (ascIdx >= 0 && ketuIdx >= 0) {
+    ketuHouse = ((ketuIdx - ascIdx + 12) % 12) + 1;
+  }
+}
+
+console.log("KETU DEBUG:", {
+  ascRasi,
+  ketuRasi,
+  ketuHouse
+});
+
+// ===== až TERAZ render Rahu =====
+const rahuBox = document.getElementById("rahuText");
+
+if (rahuBox) {
+  const signText =
+    (typeof RAHU_SIGN_PROFILE !== "undefined" && rahuRasi)
+      ? (RAHU_SIGN_PROFILE[rahuRasi] || "")
+      : "";
+
+  const houseText =
+    (typeof RAHU_HOUSE_PROFILE !== "undefined" && rahuHouse)
+      ? (RAHU_HOUSE_PROFILE[rahuHouse] || "")
+      : "";
+
+  rahuBox.innerHTML = `
+    <p><b>Rahu v znamení ${rahuRasi}${rahuHouse ? ` v ${rahuHouse}. dome` : ""}</b></p>
+    ${signText ? `<p>${signText}</p>` : `<p><i>Text pre Rahu sa nenašiel.</i></p>`}
+    ${houseText ? `<p><b>Rahu v dome:</b> ${houseText}</p>` : `<p><i>Popis domu sa nenašiel.</i></p>`}
+  `;
+}
+
+// ===== až potom render Ketu =====
+const ketuBox = document.getElementById("ketuText");
+
+if (ketuBox) {
+  const signText =
+    (typeof KETU_SIGN_PROFILE !== "undefined" && ketuRasi)
+      ? (KETU_SIGN_PROFILE[ketuRasi] || "")
+      : "";
+
+  const houseText =
+    (typeof KETU_HOUSE_PROFILE !== "undefined" && ketuHouse)
+      ? (KETU_HOUSE_PROFILE[ketuHouse] || "")
+      : "";
+
+  ketuBox.innerHTML = `
+    <p><b>Ketu v znamení ${ketuRasi}${ketuHouse ? ` v ${ketuHouse}. dome` : ""}</b></p>
+    ${signText ? `<p>${signText}</p>` : `<p><i>Text pre Ketu sa nenašiel.</i></p>`}
+    ${houseText ? `<p><b>Ketu v dome:</b> ${houseText}</p>` : `<p><i>Popis domu sa nenašiel.</i></p>`}
+  `;
+}
+
+const karmaAxisBox = document.getElementById("karmaAxisText");
+
+if (karmaAxisBox) {
+  const axisKey = `${rahuHouse}-${ketuHouse}`;
+  const axisText =
+    (typeof KARMA_AXIS_PROFILE !== "undefined" && rahuHouse && ketuHouse)
+      ? (KARMA_AXIS_PROFILE[axisKey] || "")
+      : "";
+
+  karmaAxisBox.innerHTML = axisText
+    ? `
+      <p><b>Rahu v ${rahuHouse}. dome – Ketu v ${ketuHouse}. dome</b></p>
+      <p>${axisText}</p>
+    `
+    : `<p><i>Karmickú os sa nepodarilo určiť.</i></p>`;
+}
+   
+  // fáza/tithi – zobrazí len ak existuje v data
+  const moonPhase = data.moon_phase ?? data.moonPhase ?? "";
+  const moonTithi = data.tithi ?? data.moon_tithi ?? "";
+  const moonPhaseLine =
+    (moonPhase || moonTithi)
+      ? `Vy ste sa narodili počas <b>${moonPhase || "lunárnej fázy"}</b>${moonTithi ? `, na <b>${moonTithi}. lunárny deň</b>` : ""}.`
+      : "";
+
+  if (outMoon) {
+    if (!moonP) {
+      outMoon.innerHTML = `<p>Mesiac sa v dátach nenašiel.</p>`;
+    } else {
+      
+      const deg = (moonP.deg_in_rasi ?? "");
+      const nak = moonP.nakshatra || "";
+      const pada = moonP.pada || "";
+      const rasi = (moonP.rasi || "").trim();
+      console.log("MOON RASI RAW:", moonP.rasi, "TRIM:", rasi, "PROFILE FOUND?", !!MOON_SIGN_PROFILE[rasi]);
+
+      const signLine = rasi ? `Vy ste sa narodili s Mesiacom v znamení <b>${rasi}</b>${deg !== "" ? ` (${deg}°)` : ""}.` : "";
+      const profile = MOON_SIGN_PROFILE[rasi] || MOON_SIGN_PROFILE[rasi.normalize("NFD").replace(/[\u0300-\u036f]/g, "")] || "";
+      
+      console.log("MOON DEBUG:", {
+  raw: moonP.rasi,
+  rasi,
+  keys: Object.keys(MOON_SIGN_PROFILE).slice(0, 5),
+  profileFound: !!MOON_SIGN_PROFILE[rasi],
+  profile
+});
+
+      const houseMeaning = moonHouse ? MOON_HOUSE_MEANING[moonHouse] : "";
+      const houseLine = houseMeaning || "";
+      
+      const houseTitle = moonHouse ? ` v <b>${moonHouse}. dome</b>` : "";
+      const headerLine = rasi ? `Mesiac v znamení <b>${rasi}</b>${houseTitle}${deg !== "" ? ` (${deg}°)` : ""}` : "";
+
+outMoon.innerHTML = `
+  <p><b>Stručný výklad Mesiaca</b></p>
+
+  <p><b>Mesiac (Čandra)</b> ukazuje, ako vnímate svet a za akých podmienok ste psychicky v rovnováhe.</p>
+
+  ${headerLine ? `<p>${headerLine}</p>` : ""}
+
+  ${profile ? `<p>${profile}</p>` : ""}
+
+  ${profile && houseLine ? `<hr style="opacity:0.25; margin:10px 0;">` : ""}
+
+  ${houseLine ? `<p>${houseLine}</p>` : ""}
+
+  ${moonPhaseLine ? `<p>${moonPhaseLine}</p>` : ""}
+`;
+      
+    }
+  }
+}
+   
+    // ===== DAŠE =====
+let dashasHtml = "";
+
+if (Array.isArray(data.vimshottari) && data.vimshottari.length) {
+  dashasHtml += `
+    <table>
+      <tr>
+        <th>Pán daše</th>
+        <th>Od</th>
+        <th>Do</th>
+        <th>Roky</th>
+      </tr>
+  `;
+
+  for (const d of data.vimshottari) {
+    let adHtml = "";
+
+    if (Array.isArray(d.antardasha) && d.antardasha.length) {
+      adHtml += `<details><summary>Antardaša</summary><table>`;
+      adHtml += `<tr><th>Pán AD</th><th>Od</th><th>Do</th><th>Roky</th></tr>`;
+
+      for (const ad of d.antardasha) {
+        // AD riadok
+        adHtml += `
+          <tr>
+            <td>${ad.lord ?? ""}</td>
+            <td>${ad.from ?? ad.start ?? ""}</td>
+            <td>${ad.to ?? ad.end ?? ""}</td>
+            <td>${ad.years ?? ad.len_years ?? ""}</td>
+          </tr>
+        `;
+
+        // PD rozklik pod AD
+        const pdList = ad.pratyantardasha;
+        if (Array.isArray(pdList) && pdList.length) {
+          adHtml += `
+            <tr>
+              <td colspan="4">
+                <details>
+                  <summary>Pratjántardaša</summary>
+                  <table>
+                    <tr><th>Pán PD</th><th>Od</th><th>Do</th><th>Roky</th></tr>
+          `;
+
+          for (const pd of pdList) {
+            adHtml += `
+              <tr>
+                <td>${pd.lord ?? ""}</td>
+                <td>${pd.from ?? pd.start ?? ""}</td>
+                <td>${pd.to ?? pd.end ?? ""}</td>
+                <td>${pd.years ?? pd.len_years ?? ""}</td>
+              </tr>
+            `;
+          }
+
+          adHtml += `
+                  </table>
+                </details>
+              </td>
+            </tr>
+          `;
+        }
+      }
+
+      adHtml += `</table></details>`;
+    }
+
+    dashasHtml += `
+      <tr>
+        <td>${d.lord ?? ""}</td>
+        <td>${d.from ?? d.start ?? ""}</td>
+        <td>${d.to ?? d.end ?? ""}</td>
+        <td>${d.years ?? ""}</td>
+      </tr>
+      <tr>
+        <td colspan="4">${adHtml}</td>
+      </tr>
+    `;
+  }
+
+  dashasHtml += `</table>`;
+} else {
+  dashasHtml = `<div class="box">Daše nie sú v odpovedi (prázdne).</div>`;
+}
+
+if (outDashas) outDashas.innerHTML = dashasHtml;
+
+    // ===== ASC RASI + DEG pre mapy =====
+    const signs = ["Baran","Býk","Blíženci","Rak","Lev","Panna","Váhy","Škorpión","Strelec","Kozorožec","Vodnár","Ryby"];
+
+    let ascDeg = "";
+
+    if (typeof data.asc === "string") {
+      ascRasi = data.asc;
+    } else if (typeof data.asc === "number") {
+      const idx = Math.floor((data.asc % 360) / 30);
+      ascRasi = signs[idx];
+      ascDeg = ((data.asc % 30) + 30) % 30;
+    } else if (data.asc && typeof data.asc === "object") {
+      ascRasi = data.asc.rasi || "";
+      if (data.asc.deg_in_rasi != null) ascDeg = data.asc.deg_in_rasi;
+    } else {
+      ascRasi = ascLabel;
+      ascDeg = ascDegLabel;
+    }
+
+    // ===== D1 MAPA =====
+    if (outD1) {
+      outD1.innerHTML = southIndianHTML(data.planets, ascRasi, "D1 – Južný štýl", ascDeg);
+    }
+    
+
+// ===== LAGNES: vládca Ascendentu =====
+lagnesName = "";
+lagnesObj = null;
+lagnesRasi = "";
+lagnesHouse = null;
+
+if (ascRasi) {
+  lagnesName = SIGN_LORDS[(ascRasi || "").trim()] || "";
+}
+
+if (lagnesName && data.planets) {
+  lagnesObj = findPlanetByName(data.planets, lagnesName);
+}
+
+if (lagnesObj?.rasi) {
+  lagnesRasi = (lagnesObj.rasi || "").trim();
+}
+
+if (lagnesRasi && ascRasi) {
+  const ascIdx = SIGNS.indexOf((ascRasi || "").trim());
+  const lagnesIdx = SIGNS.indexOf((lagnesRasi || "").trim());
+
+  if (ascIdx >= 0 && lagnesIdx >= 0) {
+    lagnesHouse = ((lagnesIdx - ascIdx + 12) % 12) + 1;
+  }
+}
+
+console.log("LAGNES CALC:", {
+  ascRasi,
+  lagnesName,
+  lagnesObj,
+  lagnesRasi,
+  lagnesHouse
+});
+
+renderLagnes(lagnesName, lagnesRasi, lagnesHouse);
+
+
+    // ===== INTERPRETÁCIA =====
+    
+    if (interp) {
+      interp.innerHTML = ""; // reset (aby sa nelepil text)
+    }
+
+    // ===== ASCENDENT + MESIAC (samostatné boxy) =====
+
+    // ===== ASCENDENT =====
+const ascBox = document.getElementById("ascText");
+if (ascBox) {
+  ascBox.innerHTML = "";
+
+  if (ascRasi && ASC_TEXT && ASC_TEXT[ascRasi]) {
+
+    const ascData = ASC_TEXT[ascRasi];
+
+     ascBox.innerHTML = `
+      <p><b>Ascendent v znamení ${ascRasi}</b></p>
+      <p><b>${ascData.short}</b></p>
+      <p>${ascData.long}</p>
+    `;
+
+  } else {
+    ascBox.innerHTML = `<p>Text pre ascendent sa nenašiel.</p>`;
+  }
+} 
+    
+
+// ===== D9 MAPA =====
+// D9 musí byť mimo moonBox if, aby sa vždy vykreslil
+console.log("outD9 exists?", !!outD9);
+console.log("data.asc:", data.asc);
+console.log("first planet:", data.planets?.[0]);
+
+const planetsD9 = (data.planets || []).map(p => ({ ...p, rasi: p.d9 || p.rasi }));
+const ascD9 = data.asc?.d9 || data.asc?.rasi || ascRasi;
+
+console.log("ASC D9:", ascD9);
+console.log("D9 unique signs:", [...new Set(planetsD9.map(p => p.rasi))]);
+
+if (outD9) {
+  outD9.innerHTML = `
+    <h3>Navamša (D9) – Juhoindická mapa</h3>
+    ${southIndianHTML(planetsD9, ascD9)}
+  `;
+}
+
+console.log("TEST moonText:", document.getElementById("moonText"));
+
+  }); // klik
+}); // DOM loaded
+</script>
+
+</div>
+</body>
+</html>
