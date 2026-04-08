@@ -44,14 +44,6 @@ def get_tz(lat: float = Query(...), lon: float = Query(...)):
         
     return {"tz_name": tz}
 
-# CORS    
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # INPUT MODEL
 class InputData(BaseModel):
