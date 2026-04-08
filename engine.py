@@ -2,7 +2,7 @@ import swisseph as swe
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
-RASI = ["Baran","Býk","Blíženci","Rak","Lev","Panna","Váhy","Škorpión","Strelec","Kozorožec","Vodnár","Ryby"]
+RASi = ["Baran","Býk","Blíženci","Rak","Lev","Panna","Váhy","Škorpión","Strelec","Kozorožec","Vodnár","Ryby"]
 
 NAKSHATRY_27 = [
     "Ašviní","Bharaní","Krittiká","Rohiní","Mrigáširá","Árdrá","Punarvasu","Pušja","Ášléšá",
