@@ -1,12 +1,10 @@
-from fastapi import FastAPI
-from fastapi import Query
-from fastapi.middleware.cors import CORSMiddleware 
+from fastapi import FastAPI, Query
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-
-from engine import calc_d1_nak_d9
 from timezonefinder import TimezoneFinder
+
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
