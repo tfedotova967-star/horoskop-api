@@ -8,9 +8,21 @@ from pydantic import BaseModel
 from engine import calc_d1_nak_d9
 from timezonefinder import TimezoneFinder
 
-from fastapi.middleware.cors import CORSMiddleware
-
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://horoskop-vedic.sk",
+        "http://horoskop-vedic.sk",
+        "https://www.horoskop-vedic.sk",
+        "http://www.horoskop-vedic.sk",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # TIME ZONE FINDER
 tf = TimezoneFinder()
