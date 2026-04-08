@@ -2,7 +2,7 @@ import swisseph as swe
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
-RASi = ["Baran","Býk","Blíženci","Rak","Lev","Panna","Váhy","Škorpión","Strelec","Kozorožec","Vodnár","Ryby"]
+RASI = ["Baran","Býk","Blíženci","Rak","Lev","Panna","Váhy","Škorpión","Strelec","Kozorožec","Vodnár","Ryby"]
 
 NAKSHATRY_27 = [
     "Ašviní","Bharaní","Krittiká","Rohiní","Mrigáširá","Árdrá","Punarvasu","Pušja","Ášléšá",
@@ -202,13 +202,15 @@ def _d9_sign(lon: float) -> str:
     d9_index = _navamsha_sign_index(r, deg_in_sign)
     return RASI[d9_index]
 
- # =========================
+
+
+# =========================
 # ===== STRENGTH RATING ===
 # =========================
 
 EXALTATION_SIGNS = {
     "Slnko": "Baran",
-    "Mesiac": "Byk",
+    "Mesiac": "Býk",
     "Mars": "Kozorožec",
     "Merkúr": "Panna",
     "Jupiter": "Rak",
@@ -232,7 +234,7 @@ OWN_SIGNS = {
     "Mars": ["Baran", "Škorpión"],
     "Merkúr": ["Blíženci", "Panna"],
     "Jupiter": ["Strelec", "Ryby"],
-    "Venuša": ["Byk", "Váhy"],
+    "Venuša": ["Býk", "Váhy"],
     "Saturn": ["Kozorožec", "Vodnár"],
 }
 
@@ -240,18 +242,18 @@ FRIEND_SIGNS = {
     "Slnko": ["Rak", "Baran", "Škorpión", "Strelec", "Ryby"],
     "Mesiac": ["Lev", "Blíženci", "Panna"],
     "Mars": ["Lev", "Strelec", "Ryby"],
-    "Merkúr": ["Lev", "Váhy", "Byk"],
+    "Merkúr": ["Lev", "Váhy", "Býk"],
     "Jupiter": ["Baran", "Rak", "Lev", "Škorpión"],
     "Venuša": ["Blíženci", "Panna", "Kozorožec", "Vodnár"],
-    "Saturn": ["Blíženci", "Panna", "Byk", "Váhy"],
+    "Saturn": ["Blíženci", "Panna", "Býk", "Váhy"],
 }
 
 ENEMY_SIGNS = {
-    "Slnko": ["Byk", "Váhy", "Kozorožec", "Vodnár"],
+    "Slnko": ["Býk", "Váhy", "Kozorožec", "Vodnár"],
     "Mesiac": [],
     "Mars": ["Blíženci", "Panna"],
     "Merkúr": ["Rak"],
-    "Jupiter": ["Byk", "Blíženci", "Panna", "Váhy"],
+    "Jupiter": ["Býk", "Blíženci", "Panna", "Váhy"],
     "Venuša": ["Rak", "Lev"],
     "Saturn": ["Rak", "Lev", "Baran", "Škorpión"],
 }
@@ -276,7 +278,7 @@ def calculate_planet_strength(planet_name, planet_rasi, asc_rasi, signs12, plane
     score = 3
     reasons = []
 
-        # D1 znamenie
+    # D1 znamenie
     if planet_name in EXALTATION_SIGNS and planet_rasi == EXALTATION_SIGNS[planet_name]:
         score += 2
         reasons.append("D1 exaltácia +2")
@@ -293,7 +295,7 @@ def calculate_planet_strength(planet_name, planet_rasi, asc_rasi, signs12, plane
         score -= 1
         reasons.append("D1 nepriateľské znamenie -1")
 
-        # D9 znamenie
+    # D9 znamenie
     if planet_d9:
         if planet_name in EXALTATION_SIGNS and planet_d9 == EXALTATION_SIGNS[planet_name]:
             score += 1
@@ -313,7 +315,7 @@ def calculate_planet_strength(planet_name, planet_rasi, asc_rasi, signs12, plane
 
         if planet_d9 == planet_rasi:
             score += 1
-            reasons.append("Vargottama +1")    
+            reasons.append("Vargottama +1")
 
     house = get_house_from_sign(planet_rasi, asc_rasi, signs12)
 
@@ -337,7 +339,7 @@ def calculate_planet_strength(planet_name, planet_rasi, asc_rasi, signs12, plane
         "strength_label": label,
         "strength_reasons": reasons,
         "house_from_asc": house,
-    }   
+    }
 
 def calc_d1_nak_d9(
     year, month, day, hour, minute,
@@ -345,7 +347,7 @@ def calc_d1_nak_d9(
     tz_name="Europe/Bratislava",
     house_sys=b"P"
 ):
-   
+
     # result vytvor LEN RAZ, hneď tu (predtým si ho vytvárala až neskôr a prepisovala)
     swe.set_sid_mode(swe.SIDM_LAHIRI)
 
@@ -378,14 +380,13 @@ def calc_d1_nak_d9(
         "lon": asc_lon,
         "rasi": asc_rasi,
         "deg_in_rasi": asc_deg,
-        "d9": _d9_sign(asc_lon),   # alebo asc_sid, ale asc_lon je čistejšie
+        "d9": _d9_sign(asc_lon),
         "nakshatra": nak,
         "pada": pada,
     }
 
-    # ak to ešte používaš na fronte, nechaj; inak môžeš neskôr zmazať
     result["asc_rasi"] = asc_rasi
-    
+
     moon_lon = None
     rahu_lon = None
 
@@ -403,12 +404,12 @@ def calc_d1_nak_d9(
         if name == "Rahu":
             rahu_lon = plon
 
-        speed_lon = lonlat[3]          # toto je kľúčové
+        speed_lon = lonlat[3]
         retro = speed_lon < 0
 
         if name == "Rahu":
-            retro = True  # uzly v džjotiši retro
-   
+            retro = True
+
         if name == "Mesiac":
             moon_lon = plon
 
@@ -419,7 +420,7 @@ def calc_d1_nak_d9(
             planet_name=name,
             planet_rasi=rasi,
             asc_rasi=asc_rasi,
-            signs12=SIGNS,
+            signs12=RASi,
             planet_d9=_d9_sign(plon)
         )
 
@@ -431,39 +432,9 @@ def calc_d1_nak_d9(
             "nakshatra": nak,
             "pada": pada,
             "d9": _d9_sign(plon),
-            "retro": retro, 
-            "speed": round(speed_lon, 6),            # ✅
-            "speed_lon": speed_lon,      # voliteľné, na debug
-
-            "strength_score": strength["strength_score"],
-            "strength_stars": strength["strength_stars"],
-            "strength_label": strength["strength_label"],
-            "strength_reasons": strength["strength_reasons"],
-        })
-        
-    # Ketu = Rahu + 180°
-    if rahu_lon is not None:
-        ketu_lon = (rahu_lon + 180.0) % 360.0
-        rasi, deg, lon360 = _format_rasi(ketu_lon)
-        nak, pada = _nakshatra_pada(ketu_lon)
-
-        strength = calculate_planet_strength(
-            planet_name="Ketu",
-            planet_rasi=rasi,
-            asc_rasi=result["asc"]["rasi"],
-            signs12=RASI
-        )
-
-        result["planets"].append({
-            "name": "Ketu",
-            "lon": lon360,
-            "rasi": rasi,
-            "deg_in_rasi": deg,
-            "nakshatra": nak,
-            "pada": pada,
-            "d9": _d9_sign(ketu_lon),
-            "retro": True,   # Ketu je vždy retro
-
+            "retro": retro,
+            "speed": round(speed_lon, 6),
+            "speed_lon": speed_lon,
             "strength_score": strength["strength_score"],
             "strength_stars": strength["strength_stars"],
             "strength_label": strength["strength_label"],
