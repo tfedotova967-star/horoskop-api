@@ -236,6 +236,26 @@ OWN_SIGNS = {
     "Saturn": ["Kozorožec", "Vodnár"],
 }
 
+FRIEND_SIGNS = {
+    "Slnko": ["Rak", "Baran", "Škorpión", "Strelec", "Ryby"],
+    "Mesiac": ["Lev", "Blíženci", "Panna"],
+    "Mars": ["Lev", "Strelec", "Ryby"],
+    "Merkúr": ["Lev", "Váhy", "Byk"],
+    "Jupiter": ["Baran", "Rak", "Lev", "Škorpión"],
+    "Venuša": ["Blíženci", "Panna", "Kozorožec", "Vodnár"],
+    "Saturn": ["Blíženci", "Panna", "Byk", "Váhy"],
+}
+
+ENEMY_SIGNS = {
+    "Slnko": ["Byk", "Váhy", "Kozorožec", "Vodnár"],
+    "Mesiac": [],
+    "Mars": ["Blíženci", "Panna"],
+    "Merkúr": ["Rak"],
+    "Jupiter": ["Byk", "Blíženci", "Panna", "Váhy"],
+    "Venuša": ["Rak", "Lev"],
+    "Saturn": ["Rak", "Lev", "Baran", "Škorpión"],
+}
+
 def clamp_strength(score):
     return max(1, min(5, score))
 
@@ -251,30 +271,53 @@ def get_house_from_sign(planet_rasi, asc_rasi, signs12):
     except ValueError:
         return None
 
-def calculate_planet_strength(planet_name, planet_rasi, asc_rasi, signs12):
+def calculate_planet_strength(planet_name, planet_rasi, asc_rasi, signs12, planet_d9=None):
+    print("DEBUG STRENGTH NEW:", planet_name, planet_rasi, planet_d9)
     score = 3
     reasons = []
 
-    # znamenie
+        # D1 znamenie
     if planet_name in EXALTATION_SIGNS and planet_rasi == EXALTATION_SIGNS[planet_name]:
         score += 2
-        reasons.append("exaltácia +2")
+        reasons.append("D1 exaltácia +2")
     elif planet_name in DEBILITATION_SIGNS and planet_rasi == DEBILITATION_SIGNS[planet_name]:
         score -= 2
-        reasons.append("debilitácia -2")
+        reasons.append("D1 debilitácia -2")
     elif planet_name in OWN_SIGNS and planet_rasi in OWN_SIGNS[planet_name]:
+        score += 2
+        reasons.append("D1 vlastné znamenie +2")
+    elif planet_name in FRIEND_SIGNS and planet_rasi in FRIEND_SIGNS[planet_name]:
         score += 1
-        reasons.append("vlastné znamenie +1")
-
-    # dom od ASC
-    house = get_house_from_sign(planet_rasi, asc_rasi, signs12)
-    if house in [1, 4, 5, 7, 9, 10]:
-        score += 1
-        reasons.append(f"dobrý dom {house} +1")
-    elif house in [6, 8, 12]:
+        reasons.append("D1 priateľské znamenie +1")
+    elif planet_name in ENEMY_SIGNS and planet_rasi in ENEMY_SIGNS[planet_name]:
         score -= 1
-        reasons.append(f"náročný dom {house} -1")
+        reasons.append("D1 nepriateľské znamenie -1")
 
+        # D9 znamenie
+    if planet_d9:
+        if planet_name in EXALTATION_SIGNS and planet_d9 == EXALTATION_SIGNS[planet_name]:
+            score += 1
+            reasons.append("D9 exaltácia +1")
+        elif planet_name in DEBILITATION_SIGNS and planet_d9 == DEBILITATION_SIGNS[planet_name]:
+            score -= 1
+            reasons.append("D9 debilitácia -1")
+        elif planet_name in OWN_SIGNS and planet_d9 in OWN_SIGNS[planet_name]:
+            score += 1
+            reasons.append("D9 vlastné znamenie +1")
+        elif planet_name in FRIEND_SIGNS and planet_d9 in FRIEND_SIGNS[planet_name]:
+            score += 0.5
+            reasons.append("D9 priateľské znamenie +0.5")
+        elif planet_name in ENEMY_SIGNS and planet_d9 in ENEMY_SIGNS[planet_name]:
+            score -= 0.5
+            reasons.append("D9 nepriateľské znamenie -0.5")
+
+        if planet_d9 == planet_rasi:
+            score += 1
+            reasons.append("Vargottama +1")    
+
+    house = get_house_from_sign(planet_rasi, asc_rasi, signs12)
+
+    score = round(score)
     score = clamp_strength(score)
 
     if score == 5:
@@ -373,11 +416,12 @@ def calc_d1_nak_d9(
         nak, pada = _nakshatra_pada(plon)
 
         strength = calculate_planet_strength(
-    planet_name=name,
-    planet_rasi=rasi,
-    asc_rasi=result["asc"]["rasi"],
-    signs12=RASI
-)
+            planet_name=name,
+            planet_rasi=rasi,
+            asc_rasi=asc_rasi,
+            signs12=SIGNS,
+            planet_d9=_d9_sign(plon)
+        )
 
         result["planets"].append({
             "name": name,
