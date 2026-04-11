@@ -441,6 +441,38 @@ def calc_d1_nak_d9(
             "strength_reasons": strength["strength_reasons"],
         })
 
+         # ===== KETU dopočítaný z Rahu =====
+    if rahu_lon is not None:
+        ketu_lon = (rahu_lon + 180.0) % 360.0
+
+        ketu_rasi, ketu_deg, ketu_lon360 = _format_rasi(ketu_lon)
+        ketu_nak, ketu_pada = _nakshatra_pada(ketu_lon)
+
+        ketu_strength = calculate_planet_strength(
+            planet_name="Ketu",
+            planet_rasi=ketu_rasi,
+            asc_rasi=asc_rasi,
+            signs12=RASI,
+            planet_d9=_d9_sign(ketu_lon)
+        )
+
+        result["planets"].append({
+            "name": "Ketu",
+            "lon": ketu_lon360,
+            "rasi": ketu_rasi,
+            "deg_in_rasi": ketu_deg,
+            "nakshatra": ketu_nak,
+            "pada": ketu_pada,
+            "d9": _d9_sign(ketu_lon),
+            "retro": True,
+            "speed": 0.0,
+            "speed_lon": 0.0,
+            "strength_score": ketu_strength["strength_score"],
+            "strength_stars": ketu_strength["strength_stars"],
+            "strength_label": ketu_strength["strength_label"],
+            "strength_reasons": ketu_strength["strength_reasons"],
+        })   
+
 
     if moon_lon is not None:
         result["vimshottari"] = vimshottari_mahadasha(dt_utc, moon_lon, count=12)
