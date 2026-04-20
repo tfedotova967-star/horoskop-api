@@ -11,15 +11,6 @@ NAKSHATRY_27 = [
     "Púrva Bhádrapadá","Uttara Bhádrapadá","Révatí"
 ]
 
-RASi = ["Baran","Býk","Blíženci","Rak","Lev","Panna","Váhy","Škorpión","Strelec","Kozorožec","Vodnár","Ryby"]
-
-NAKSHATRY_27 = [
-    "Ašviní","Bharaní","Krittiká","Rohiní","Mrigáširá","Árdrá","Punarvasu","Pušja","Ášléšá",
-    "Maghá","Púrva Phalguní","Uttara Phalguní","Hasta","Čitra","Svátí","Višákhá","Anurádhá","Džjéšthá",
-    "Múla","Púrva Ašádhá","Uttara Ašádhá","Šravaná","Dhaništhá","Šatabhišá",
-    "Púrva Bhádrapadá","Uttara Bhádrapadá","Révatí"
-]
-
 
 DASHA_ORDER = ["Ketu","Venuša","Slnko","Mesiac","Mars","Rahu","Jupiter","Saturn","Merkúr"]
 DASHA_YEARS = {
@@ -424,6 +415,7 @@ def calc_d1_nak_d9(
 
         rasi, deg, lon360 = _format_rasi(plon)
         nak, pada = _nakshatra_pada(plon)
+        house = get_house_from_sign(rasi, asc_rasi, RASi)
 
         strength = calculate_planet_strength(
             planet_name=name,
@@ -438,6 +430,7 @@ def calc_d1_nak_d9(
             "lon": lon360,
             "rasi": rasi,
             "deg_in_rasi": deg,
+            "house": house,
             "nakshatra": nak,
             "pada": pada,
             "d9": _d9_sign(plon),
@@ -609,20 +602,3 @@ def add_pratyantara_to_vimshottari(vim_list):
 
     return vim_list
   
-
-
-
-
-   
-   
-  
-   
-
-        
-    
-   
-   
-  
-  
-   
-
