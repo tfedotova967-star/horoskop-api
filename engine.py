@@ -9,9 +9,7 @@ NAKSHATRY_27 = [
     "Maghá","Púrva Phalguní","Uttara Phalguní","Hasta","Čitra","Svátí","Višákhá","Anurádhá","Džjéšthá",
     "Múla","Púrva Ašádhá","Uttara Ašádhá","Šravaná","Dhaništhá","Šatabhišá",
     "Púrva Bhádrapadá","Uttara Bhádrapadá","Révatí"
-]import swisseph as swe
-from datetime import datetime, timedelta, timezone
-from zoneinfo import ZoneInfo
+]
 
 RASi = ["Baran","Býk","Blíženci","Rak","Lev","Panna","Váhy","Škorpión","Strelec","Kozorožec","Vodnár","Ryby"]
 
