@@ -463,6 +463,7 @@ def calc_d1_nak_d9(
             "lon": ketu_lon360,
             "rasi": ketu_rasi,
             "deg_in_rasi": ketu_deg,
+            "house": ketu_house,
             "nakshatra": ketu_nak,
             "pada": ketu_pada,
             "d9": _d9_sign(ketu_lon),
