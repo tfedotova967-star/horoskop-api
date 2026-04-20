@@ -449,6 +449,8 @@ def calc_d1_nak_d9(
 
         ketu_rasi, ketu_deg, ketu_lon360 = _format_rasi(ketu_lon)
         ketu_nak, ketu_pada = _nakshatra_pada(ketu_lon)
+        ketu_house = get_house_from_sign(ketu_rasi, asc_rasi, RASI)
+
 
         ketu_strength = calculate_planet_strength(
             planet_name="Ketu",
