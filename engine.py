@@ -483,7 +483,27 @@ def calc_d1_nak_d9(
             "strength_reasons": ketu_strength["strength_reasons"],
         })   
 
+    if moon_lon is not None and sun_lon is not None:
+        diff = (moon_lon - sun_lon) % 360.0
+        tithi = int(diff // 12) + 1
 
+        if tithi == 15:
+            moon_phase = "Spln"
+            moon_phase_type = "spln"
+        elif tithi == 30:
+            moon_phase = "Nov"
+            moon_phase_type = "nov"
+        elif tithi < 15:
+            moon_phase = "pribúdajúci Mesiac"
+            moon_phase_type = "pribúdajúci"
+        else:
+            moon_phase = "ubúdajúci Mesiac"
+            moon_phase_type = "ubúdajúci"
+
+        result["moon_phase"] = moon_phase
+        result["moon_phase_type"] = moon_phase_type
+        result["moon_tithi"] = tithi
+    
     if moon_lon is not None:
         result["vimshottari"] = vimshottari_mahadasha(dt_utc, moon_lon, count=12)
 
