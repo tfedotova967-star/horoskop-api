@@ -415,7 +415,7 @@ def calc_d1_nak_d9(
         if name == "Mesiac":
             moon_lon = plon
 
-         if name == "Slnko":
+        if name == "Slnko":
              sun_lon = plon   
 
         rasi, deg, lon360 = _format_rasi(plon)
