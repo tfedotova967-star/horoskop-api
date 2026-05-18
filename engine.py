@@ -388,7 +388,9 @@ def calc_d1_nak_d9(
     result["asc_rasi"] = asc_rasi
 
     moon_lon = None
+    sun_lon = None
     rahu_lon = None
+    
 
     for name, p in PLANETS:
         if name == "Ketu":
@@ -412,6 +414,9 @@ def calc_d1_nak_d9(
 
         if name == "Mesiac":
             moon_lon = plon
+
+         if name == "Slnko":
+             sun_lon = plon   
 
         rasi, deg, lon360 = _format_rasi(plon)
         nak, pada = _nakshatra_pada(plon)
